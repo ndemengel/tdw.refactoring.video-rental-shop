@@ -1,13 +1,12 @@
 package net.demengel.refactoring.vrs;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import net.demengel.refactoring.vrs.ui.AvailableMoviesView;
 import net.demengel.refactoring.vrs.ui.CustomersView;
@@ -15,7 +14,9 @@ import net.demengel.refactoring.vrs.ui.RentedMoviesView;
 
 public class Main extends JFrame {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
@@ -25,11 +26,30 @@ public class Main extends JFrame {
         });
     }
 
-    public Main() {
+    private static Main s_instance;
+
+    public static Main getInstance() {
+        return s_instance;
+    }
+
+    private Main() {
         super("Video Rental Shop");
+        s_instance = this;
+        setName("mainWindow");
         createTabs();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 500);
+        setSize(800, 600);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension windowSize = getSize();
+        if (windowSize.height > screenSize.height) {
+            windowSize.height = screenSize.height;
+        }
+        if (windowSize.width > screenSize.width) {
+            windowSize.width = screenSize.width;
+        }
+        setLocation((screenSize.width - windowSize.width) / 2, (screenSize.height - windowSize.height) / 2);
+
         setVisible(true);
     }
 

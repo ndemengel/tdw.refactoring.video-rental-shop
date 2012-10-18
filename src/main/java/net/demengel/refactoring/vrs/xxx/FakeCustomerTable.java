@@ -1,8 +1,8 @@
 package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -25,11 +25,11 @@ public class FakeCustomerTable {
             );
 
     public static List<Customer> selectAllPropertiesFromCustomerTable() {
-        return newArrayList(copyCustomers());
+        return copy(ALL_CUSTOMERS);
     }
 
-    private static List<Customer> copyCustomers() {
-        return transform(ALL_CUSTOMERS, new Function<Customer, Customer>() {
+    private static List<Customer> copy(Iterable<Customer> customers) {
+        return newArrayList(transform(customers, new Function<Customer, Customer>() {
             public Customer apply(Customer in) {
                 Customer out = new Customer();
                 out.setAccountNumber(in.getAccountNumber());
@@ -45,11 +45,11 @@ public class FakeCustomerTable {
                 out.setZipCode(in.getZipCode());
                 return out;
             }
-        });
+        }));
     }
 
     public static List<Customer> selectAllPropertiesFromCustomerTableWhereAccountNumberStartsWith(final String accountNumberStart) {
-        return newArrayList(filter(copyCustomers(), new Predicate<Customer>() {
+        return copy(filter(ALL_CUSTOMERS, new Predicate<Customer>() {
             public boolean apply(Customer customer) {
                 return customer.getAccountNumber().startsWith(accountNumberStart);
             }
@@ -57,7 +57,7 @@ public class FakeCustomerTable {
     }
 
     public static List<Customer> selectAllPropertiesFromCustomerTableWhereNameContains(final String nameContents) {
-        return newArrayList(filter(copyCustomers(), new Predicate<Customer>() {
+        return copy(filter(ALL_CUSTOMERS, new Predicate<Customer>() {
             public boolean apply(Customer customer) {
                 return customer.getName().contains(nameContents);
             }

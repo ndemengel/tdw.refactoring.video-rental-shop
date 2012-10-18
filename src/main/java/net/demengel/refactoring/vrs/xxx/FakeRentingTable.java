@@ -2,8 +2,8 @@ package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.base.Predicates.and;
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -27,20 +27,20 @@ public class FakeRentingTable {
 
         ALL_RENTINGS = asList(
                 renting().customerNumber("11111").movieCode("BEKINDREWI2008").rentingDate("2010/06/15").returnDate("2010/06/16").build(),
-                renting().customerNumber("11111").movieCode("THEDARKNIG2012").rentingDate(now.minusDays(23)).returnDate(now.minusDays(21)).build(),
-                renting().customerNumber("11111").movieCode("LASOUPEAUXCHOUX1981").rentingDate(now.minusDays(11)).notReturned().build(),
-                renting().customerNumber("22222").movieCode("THEDARKNIG2012").rentingDate(now.minusDays(2)).notReturned().build(),
+                renting().customerNumber("11111").movieCode("THEDARKKNI2012").rentingDate(now.minusDays(23)).returnDate(now.minusDays(21)).build(),
+                renting().customerNumber("11111").movieCode("LASOUPEAUX1981").rentingDate(now.minusDays(11)).notReturned().build(),
+                renting().customerNumber("22222").movieCode("THEDARKKNI2012").rentingDate(now.minusDays(2)).notReturned().build(),
                 renting().customerNumber("22222").movieCode("AVENGERS2012").rentingDate(now.minusDays(2)).notReturned().build(),
                 renting().customerNumber("22222").movieCode("SOULKITCH2009").rentingDate(now.minusDays(2)).notReturned().build()
                 );
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereReturnDateIsNull() {
-        return newArrayList(filter(copyRentings(), nullReturnDate()));
+        return copy(filter(ALL_RENTINGS, nullReturnDate()));
     }
 
-    private static List<Renting> copyRentings() {
-        return transform(ALL_RENTINGS, new Function<Renting, Renting>() {
+    private static List<Renting> copy(Iterable<Renting> rentings) {
+        return newArrayList(transform(rentings, new Function<Renting, Renting>() {
             public Renting apply(Renting in) {
                 Renting out = new Renting();
                 out.setCustomerNumber(in.getCustomerNumber());
@@ -49,7 +49,7 @@ public class FakeRentingTable {
                 out.setReturnDate(in.getReturnDate());
                 return out;
             }
-        });
+        }));
     }
 
     private static Predicate<Renting> nullReturnDate() {
@@ -61,7 +61,7 @@ public class FakeRentingTable {
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereReturnDateIsNullAndMovieCodeIsEqualTo(final String movieCode) {
-        return newArrayList(filter(copyRentings(), and(nullReturnDate(), movieCodeEqualTo(movieCode))));
+        return copy(filter(ALL_RENTINGS, and(nullReturnDate(), movieCodeEqualTo(movieCode))));
     }
 
     private static Predicate<Renting> movieCodeEqualTo(final String movieCode) {
@@ -73,7 +73,7 @@ public class FakeRentingTable {
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereCustomerNumberIsEqualTo(String customerNumber) {
-        return newArrayList(filter(copyRentings(), customerNumberEqualTo(customerNumber)));
+        return copy(filter(ALL_RENTINGS, customerNumberEqualTo(customerNumber)));
     }
 
     private static Predicate<Renting> customerNumberEqualTo(final String customerNumber) {

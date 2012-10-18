@@ -2,12 +2,12 @@ package net.demengel.refactoring.vrs.dao;
 
 import static net.demengel.refactoring.vrs.xxx.FakeMovieTable.selectAllPropertiesFromMovieTable;
 import static net.demengel.refactoring.vrs.xxx.FakeMovieTable.selectAllPropertiesFromMovieTableWhereCodeIn;
+import static net.demengel.refactoring.vrs.xxx.FakeMovieTable.selectAllPropertiesFromMovieTableWhereCodeIsEqualTo;
 import static net.demengel.refactoring.vrs.xxx.FakeMovieTable.selectAllPropertiesFromMovieTableWhereTitleContains;
 
 import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.xxx.FakeMovieTable;
 
 /**
  * Responsible for retrieving movie-related data
@@ -54,6 +54,10 @@ public class MovieDao {
 
     public List findMoviesByTitleLike(String p_title) {
         return selectAllPropertiesFromMovieTableWhereTitleContains(p_title);
+    }
+
+    public Movie getMovieByCode(String pMovieCode) {
+        return selectAllPropertiesFromMovieTableWhereCodeIsEqualTo(pMovieCode);
     }
 
     public List getMoviesByCodes(List<String> pMovieCodes) {

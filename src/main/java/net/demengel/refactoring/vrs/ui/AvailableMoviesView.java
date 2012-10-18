@@ -25,6 +25,7 @@ import net.demengel.refactoring.vrs.bean.Renting;
 import net.demengel.refactoring.vrs.dao.MovieDao;
 import net.demengel.refactoring.vrs.dao.ReferentialDao;
 import net.demengel.refactoring.vrs.dao.RentingDao;
+import net.demengel.refactoring.vrs.util.PriceUtils;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
 public class AvailableMoviesView extends JPanel {
@@ -132,22 +133,7 @@ public class AvailableMoviesView extends JPanel {
                 // Price
                 case 3:
                     Movie lMovie = (Movie) mDisplayedMovies.get(rowIndex);
-                    value=lMovie.getForcedPrice();
-                    // if price is not forced
-                    if (value == null) {
-                        // if movie has been rent for less than 3 months
-                        if (new Date().getTime() - lMovie.getRentingStart().getTime() < 90L * 24 * 3600 * 1000) {
-                            value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_3_MONTHS);
-                        }
-                        // else, if movie has been rent for less than 1 year
-                        else if (new Date().getTime() - lMovie.getRentingStart().getTime() < 365L * 24 * 3600 * 1000) {
-                            value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_1_YEAR);
-                        }
-                        // else, if movie has been rent for more than 1 year
-                        else {
-                        value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_OLDER_THAN_1_YEAR);
-                        }
-                    }
+                    value = PriceUtils.getRental(lMovie, new Date());
                     break;
                 // Director
                 case 4:

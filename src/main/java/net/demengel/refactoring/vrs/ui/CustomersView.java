@@ -2,12 +2,18 @@ package net.demengel.refactoring.vrs.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -23,6 +29,7 @@ public class CustomersView extends JPanel {
     private List<Customer> m_customers;
     private String m_nameFilter = "";
     private String m_numberFilter = "";
+    private int m_selectedRow = -1;
 
     public CustomersView() {
         setLayout(new BorderLayout());
@@ -84,7 +91,56 @@ public class CustomersView extends JPanel {
                 return 4;
             }
         };
-        add(new JScrollPane(new JTable(m_model)), BorderLayout.CENTER);
+        
+        final JPopupMenu jPopupMenu = new JPopupMenu();
+        final JMenuItem jMenuItem1 = new JMenuItem("Rent Movies...");
+        jPopupMenu.add(jMenuItem1);
+        final JMenuItem jMenuItem2 = new JMenuItem("Return Movies...");
+        jPopupMenu.add(jMenuItem2);
+        ActionListener lMenuItemsActionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent pArg0) {
+                Customer selCust = m_customers.get(m_selectedRow);
+                if (pArg0.getSource() == jMenuItem1)
+                    new RentMoviesDialog(selCust).setVisible(true);
+                else
+                    new ReturnMoviesDialog(selCust).setVisible(true);
+            }
+        };
+        jMenuItem1.addActionListener(lMenuItemsActionListener);
+        jMenuItem2.addActionListener(lMenuItemsActionListener);
+        
+        final JTable jTable = new JTable(m_model);
+        jTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent pMouseEvent) {
+                showPopup(pMouseEvent);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent pMouseEvent) {
+                showPopup(pMouseEvent);
+            }
+
+            private void showPopup(MouseEvent pMouseEvent) {
+                m_selectedRow = jTable.rowAtPoint(pMouseEvent.getPoint());
+                if (m_selectedRow >= 0 && m_selectedRow < jTable.getRowCount()) {
+                    jTable.setRowSelectionInterval(m_selectedRow, m_selectedRow);
+                } else {
+                    jTable.clearSelection();
+                }
+
+                int rowindex = jTable.getSelectedRow();
+                if (rowindex < 0) {
+                    return;
+                }
+
+                if (pMouseEvent.isPopupTrigger() && pMouseEvent.getComponent() instanceof JTable) {
+                    jPopupMenu.show(pMouseEvent.getComponent(), pMouseEvent.getX(), pMouseEvent.getY());
+                }
+            }
+        });
+        add(new JScrollPane(jTable), BorderLayout.CENTER);
 
         m_customers = CustomerDao.getInstance().listAllCustomers();
     }

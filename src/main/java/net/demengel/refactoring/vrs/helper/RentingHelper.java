@@ -104,4 +104,22 @@ public class RentingHelper implements ReferentialProperties {
 //        }
 //        return result;
 //    }
+    
+    public void addTitlesToRentings(List<Renting> pRentings) {
+        List<String> codes = new ArrayList<String>(pRentings.size());
+        for (Renting lRenting : pRentings) {
+            codes.add(lRenting.getMovieCode());
+        }
+        
+        List<Movie> getMoviesByCodes = m_movieDAO.getMoviesByCodes(codes);
+        
+        for (Renting lRenting : pRentings) {
+            for (Movie lMovie : getMoviesByCodes) {
+                if (lMovie.getCode() .equals(lRenting.getMovieCode()))
+                {
+                    lRenting.setMovieTitle(lMovie.getTitle());
+                }
+            }
+        }
+    }
 }

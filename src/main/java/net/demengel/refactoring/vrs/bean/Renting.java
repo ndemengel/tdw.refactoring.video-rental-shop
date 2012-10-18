@@ -20,6 +20,11 @@ public class Renting {
     private String movieCode;
     
     /**
+     * Movie title
+     */
+    private String movieTitle;
+    
+    /**
      * Renting date
      */
     private Date rentingDate;
@@ -57,6 +62,20 @@ public class Renting {
      */
     public void setMovieCode(String pMovieCode) {
         movieCode = pMovieCode;
+    }
+
+    /**
+     * @return the movieTitle
+     */
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    /**
+     * @param pMovieTitle the movieTitle to set
+     */
+    public void setMovieTitle(String pMovieTitle) {
+        movieTitle = pMovieTitle;
     }
 
     /**

@@ -2,6 +2,8 @@ package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
+import static com.google.common.collect.Sets.newHashSet;
 import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -12,6 +14,7 @@ import net.demengel.refactoring.vrs.bean.Movie;
 
 import org.joda.time.LocalDate;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
@@ -43,13 +46,42 @@ public class FakeMovieTable {
     }
 
     public static List<Movie> selectAllPropertiesFromMovieTable() {
-        return newArrayList(ALL_MOVIES);
+        return newArrayList(copyMovies());
+    }
+
+    private static List<Movie> copyMovies() {
+        return transform(ALL_MOVIES, new Function<Movie, Movie>() {
+            public Movie apply(Movie in) {
+                Movie out = new Movie();
+                out.setCast(newHashSet(in.getCast()));
+                out.setCode(in.getCode());
+                out.setCountry(in.getCountry());
+                out.setDirector(in.getDirector());
+                out.setDuration(in.getDuration());
+                out.setForcedPrice(in.getForcedPrice());
+                out.setGenres(newHashSet(in.getGenres()));
+                out.setOwnedQuantity(in.getOwnedQuantity());
+                out.setReleaseDate(in.getReleaseDate());
+                out.setRentingStart(in.getRentingStart());
+                out.setTitle(in.getTitle());
+                out.setWriters(newHashSet(in.getWriters()));
+                return out;
+            }
+        });
     }
 
     public static List<Movie> selectAllPropertiesFromMovieTableWhereTitleContains(final String titleContents) {
-        return newArrayList(filter(ALL_MOVIES, new Predicate<Movie>() {
+        return newArrayList(filter(copyMovies(), new Predicate<Movie>() {
             public boolean apply(Movie movie) {
                 return movie.getTitle().contains(titleContents);
+            }
+        }));
+    }
+
+    public static List<Movie> selectAllPropertiesFromMovieTableWhereCodeIn(final List<String> movieCodes) {
+        return newArrayList(filter(copyMovies(), new Predicate<Movie>() {
+            public boolean apply(Movie movie) {
+                return movieCodes.contains(movie.getCode());
             }
         }));
     }

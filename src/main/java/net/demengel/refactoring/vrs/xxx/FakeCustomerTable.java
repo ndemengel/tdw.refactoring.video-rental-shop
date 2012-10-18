@@ -2,6 +2,7 @@ package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Customer;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
@@ -23,11 +25,31 @@ public class FakeCustomerTable {
             );
 
     public static List<Customer> selectAllPropertiesFromCustomerTable() {
-        return newArrayList(ALL_CUSTOMERS);
+        return newArrayList(copyCustomers());
+    }
+
+    private static List<Customer> copyCustomers() {
+        return transform(ALL_CUSTOMERS, new Function<Customer, Customer>() {
+            public Customer apply(Customer in) {
+                Customer out = new Customer();
+                out.setAccountNumber(in.getAccountNumber());
+                out.setAddressLine1(in.getAddressLine1());
+                out.setAddressLine2(in.getAddressLine2());
+                out.setAddressLine3(in.getAddressLine3());
+                out.setBirthDate(in.getBirthDate());
+                out.setCity(in.getCity());
+                out.setCreditCardNumber(in.getCreditCardNumber());
+                out.setCredits(in.getCredits());
+                out.setName(in.getName());
+                out.setPhoneNumber(in.getPhoneNumber());
+                out.setZipCode(in.getZipCode());
+                return out;
+            }
+        });
     }
 
     public static List<Customer> selectAllPropertiesFromCustomerTableWhereAccountNumberStartsWith(final String accountNumberStart) {
-        return newArrayList(filter(ALL_CUSTOMERS, new Predicate<Customer>() {
+        return newArrayList(filter(copyCustomers(), new Predicate<Customer>() {
             public boolean apply(Customer customer) {
                 return customer.getAccountNumber().startsWith(accountNumberStart);
             }
@@ -35,7 +57,7 @@ public class FakeCustomerTable {
     }
 
     public static List<Customer> selectAllPropertiesFromCustomerTableWhereNameContains(final String nameContents) {
-        return newArrayList(filter(ALL_CUSTOMERS, new Predicate<Customer>() {
+        return newArrayList(filter(copyCustomers(), new Predicate<Customer>() {
             public boolean apply(Customer customer) {
                 return customer.getName().contains(nameContents);
             }

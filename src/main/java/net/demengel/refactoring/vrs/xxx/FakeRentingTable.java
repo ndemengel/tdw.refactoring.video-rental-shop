@@ -3,6 +3,7 @@ package net.demengel.refactoring.vrs.xxx;
 import static com.google.common.base.Predicates.and;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -12,6 +13,7 @@ import net.demengel.refactoring.vrs.bean.Renting;
 
 import org.joda.time.LocalDate;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
@@ -34,7 +36,20 @@ public class FakeRentingTable {
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereReturnDateIsNull() {
-        return newArrayList(filter(ALL_RENTINGS, nullReturnDate()));
+        return newArrayList(filter(copyRentings(), nullReturnDate()));
+    }
+
+    private static List<Renting> copyRentings() {
+        return transform(ALL_RENTINGS, new Function<Renting, Renting>() {
+            public Renting apply(Renting in) {
+                Renting out = new Renting();
+                out.setCustomerNumber(in.getCustomerNumber());
+                out.setMovieCode(in.getMovieCode());
+                out.setRentingDate(in.getRentingDate());
+                out.setReturnDate(in.getReturnDate());
+                return out;
+            }
+        });
     }
 
     private static Predicate<Renting> nullReturnDate() {
@@ -46,7 +61,7 @@ public class FakeRentingTable {
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereReturnDateIsNullAndMovieCodeIsEqualTo(final String movieCode) {
-        return newArrayList(filter(ALL_RENTINGS, and(nullReturnDate(), movieCodeEqualTo(movieCode))));
+        return newArrayList(filter(copyRentings(), and(nullReturnDate(), movieCodeEqualTo(movieCode))));
     }
 
     private static Predicate<Renting> movieCodeEqualTo(final String movieCode) {
@@ -58,7 +73,7 @@ public class FakeRentingTable {
     }
 
     public static List<Renting> selectAllPropertiesFromRentingTableWhereCustomerNumberIsEqualTo(String customerNumber) {
-        return newArrayList(filter(ALL_RENTINGS, customerNumberEqualTo(customerNumber)));
+        return newArrayList(filter(copyRentings(), customerNumberEqualTo(customerNumber)));
     }
 
     private static Predicate<Renting> customerNumberEqualTo(final String customerNumber) {

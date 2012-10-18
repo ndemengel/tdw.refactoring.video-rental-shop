@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import net.demengel.refactoring.vrs.ui.AvailableMoviesView;
+import net.demengel.refactoring.vrs.ui.CustomersView;
 
 public class Main extends JFrame {
 
@@ -34,7 +35,7 @@ public class Main extends JFrame {
     private void createTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.add("Available Movies", new AvailableMoviesView());
-        tabbedPane.add("Customers", new JPanel());
+        tabbedPane.add("Customers", new CustomersView());
         tabbedPane.add("Rented Movies", new JPanel());
         add(tabbedPane);
     }

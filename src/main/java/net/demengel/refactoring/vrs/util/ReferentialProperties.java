@@ -5,8 +5,12 @@ package net.demengel.refactoring.vrs.util;
  * 
  * @author nico 17 oct. 2012
  */
-public class ReferentialProperties {
+public interface ReferentialProperties {
 
+    /**
+     * The maximum of days a customer is allowed to rent a movie before we shout at her.
+     */
+    public static final String MAX_RENTING_DAYS = "MAX_RENTING_DAYS";
     /**
      * The price for movies no older than 3 months.
      */

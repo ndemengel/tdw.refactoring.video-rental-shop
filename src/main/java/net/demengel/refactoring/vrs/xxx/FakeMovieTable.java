@@ -1,19 +1,23 @@
 package net.demengel.refactoring.vrs.xxx;
 
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
+import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.joda.time.LocalDate;
-
 import net.demengel.refactoring.vrs.bean.Movie;
 
-public class FakeMovieDb {
+import org.joda.time.LocalDate;
+
+import com.google.common.base.Predicate;
+
+/**
+ * Fake MOVIE table in a relational DataBase.
+ */
+public class FakeMovieTable {
 
     private static final List<Movie> ALL_MOVIES;
     static {
@@ -34,12 +38,20 @@ public class FakeMovieDb {
                         .ownedQuantity(2).build(),
                 movie("LASOUPEAUXCHOUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentingStart("1985/11/05")
                         .genres("Comedy", "Sci-Fi").duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet")
-                        .cast("Louis de Funès", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).build()
+                        .cast("Louis de Funès", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).forcedPrice(1.2).build()
                 );
     }
 
-    public static List<Movie> getAllMovies() {
-        return new ArrayList<Movie>(ALL_MOVIES);
+    public static List<Movie> selectAllPropertiesFromMovieTable() {
+        return newArrayList(ALL_MOVIES);
+    }
+
+    public static List<Movie> selectAllPropertiesFromMovieTableWhereTitleContains(final String titleContents) {
+        return newArrayList(filter(ALL_MOVIES, new Predicate<Movie>() {
+            public boolean apply(Movie movie) {
+                return movie.getTitle().contains(titleContents);
+            }
+        }));
     }
 
     private static MovieBuilder movie(String code) {
@@ -79,6 +91,11 @@ public class FakeMovieDb {
             return this;
         }
 
+        public MovieBuilder forcedPrice(double price) {
+            movie.setForcedPrice(price);
+            return this;
+        }
+
         public MovieBuilder genres(String... genres) {
             movie.setGenres(new HashSet<String>(asList(genres)));
             return this;
@@ -102,14 +119,6 @@ public class FakeMovieDb {
         public MovieBuilder rentingStart(LocalDate date) {
             movie.setRentingStart(date.toDate());
             return this;
-        }
-
-        private Date parseDate(String date) {
-            try {
-                return new SimpleDateFormat("yyyy/MM/dd").parse(date);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
         }
 
         public MovieBuilder title(String title) {

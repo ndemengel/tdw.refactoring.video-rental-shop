@@ -21,58 +21,65 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import net.demengel.refactoring.vrs.bean.Movie;
+import net.demengel.refactoring.vrs.bean.Renting;
 import net.demengel.refactoring.vrs.dao.MovieDao;
 import net.demengel.refactoring.vrs.dao.ReferentialDao;
+import net.demengel.refactoring.vrs.dao.RentingDao;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
 public class AvailableMoviesView extends JPanel {
 
     private AbstractTableModel m_model;
     private List mDisplayedMovies;
-    private String m_filterString;
+    private String m_filterString = "";
 
     public AvailableMoviesView() {
         setLayout(new BorderLayout());
         
+        //// filter panel
         JPanel filterPanel = new JPanel(new FlowLayout());
-        filterPanel.add(new JLabel("Filter:"));
-        createFilterField(filterPanel);
-        add(filterPanel, BorderLayout.NORTH);
-        
-        createTableModel();
-        add(new JScrollPane(new JTable(m_model)), BorderLayout.CENTER);
-
-        mDisplayedMovies = MovieDao.getInstance().listAllMovies();
-    }
-
-    private void createFilterField(JPanel jPanel) {
+        // field label
+        JLabel label = new JLabel("Filter:");
+        filterPanel.add(label);
+        // filter field
         final JTextField jTextField = new JTextField();
         jTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent pE) {
+                // if field content has changed
                 if (!jTextField.getText().equals(m_filterString)) {
                     m_filterString = jTextField.getText();
                     
                     mDisplayedMovies = new ArrayList();
-
+        
+                    // get all movies
                     List movies = MovieDao.getInstance().listAllMovies();
+                    // loop on them
                     for (int i = 0; i < movies.size(); i++) {
                         Movie movie = (Movie) movies.get(i);
-                        if (movie.getTitle().toLowerCase().startsWith(m_filterString.toLowerCase()))
+                        // if movie title contains user entry
+                        if (movie.getTitle().toLowerCase().contains(m_filterString.toLowerCase()))
+                            // add it to the list of movies to display
                             mDisplayedMovies.add(movie);
                     }
                  
+                    // notifies table of data change
                     m_model.fireTableDataChanged();
                 }
             }
         });
         jTextField.setColumns(50);
-        jPanel.add(jTextField);
-    }
-
-    private void createTableModel() {
+        filterPanel.add(jTextField);
+        add(filterPanel, BorderLayout.NORTH);
+        
+        //// Table model
         m_model = new AbstractTableModel() {
-
+        
+            /**
+             * Returns the name of the column at the given index.
+             * @param pColumnIdx the column index
+             * @return the name
+             */
             @Override
             public String getColumnName(int pColumnIdx) {
                 String name = "";
@@ -91,41 +98,67 @@ public class AvailableMoviesView extends JPanel {
                 if (pColumnIdx == 4) {
                     name = "Director";
                 }
+                else if (pColumnIdx == 5) {
+                    name = "Duration";
+                }
                 return name;
             }
-
+        
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Object value = null;
                 switch (columnIndex) {
+                // Title
                 case 0:
                     value = ((Movie) mDisplayedMovies.get(rowIndex)).getTitle();
                     break;
+                // Release Year
                 case 1:
                     Calendar cal = Calendar.getInstance();
                     cal.setTime( ((Movie) mDisplayedMovies.get(rowIndex)).getReleaseDate());
+                    // only displays release year
                     value = cal.get(Calendar.YEAR);
                     break;
+                // Available Quantity
                 case 2:
-                    value = ((Movie) mDisplayedMovies.get(rowIndex)).getOwnedQuantity();
+                    Movie l_movie = (Movie) mDisplayedMovies.get(rowIndex);
+                    // get total owned quantity
+                    int l_ownedQuantity = l_movie.getOwnedQuantity();
+                    // get current rentings for the movie
+                    List<Renting> l_CurRentings = RentingDao.getInstance().findCurrentRentingsForMovie(l_movie.getCode());
+                    //the difference is the availbale qty
+                    value = l_ownedQuantity - l_CurRentings.size();
                     break;
+                // Price
                 case 3:
                     Movie lMovie = (Movie) mDisplayedMovies.get(rowIndex);
                     value=lMovie.getForcedPrice();
+                    // if price is not forced
                     if (value == null) {
-                        if (new Date().getTime() - lMovie.getRentingStart().getTime() < 90 * 24 * 3600 * 1000) {
+                        // if movie has been rent for less than 3 months
+                        if (new Date().getTime() - lMovie.getRentingStart().getTime() < 90L * 24 * 3600 * 1000) {
                             value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_3_MONTHS);
                         }
-                        if (new Date().getTime() - lMovie.getRentingStart().getTime() < 365 * 24 * 3600 * 1000) {
+                        // else, if movie has been rent for less than 1 year
+                        else if (new Date().getTime() - lMovie.getRentingStart().getTime() < 365L * 24 * 3600 * 1000) {
                             value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_1_YEAR);
                         }
+                        // else, if movie has been rent for more than 1 year
+                        else {
                         value = ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_OLDER_THAN_1_YEAR);
+                        }
                     }
                     break;
+                // Director
                 case 4:
                     value = ((Movie) mDisplayedMovies.get(rowIndex)).getDirector();
                     break;
+                // Duration
                 case 5:
+                    value = ((Movie) mDisplayedMovies.get(rowIndex)).getDuration();
+                    break;
+                // Cast
+                case 6:
                     StringBuffer sb = new StringBuffer();
                     for(Iterator castIterator = ((Movie) mDisplayedMovies.get(rowIndex)).getCast().iterator(); castIterator.hasNext(); ) {
                         if (sb.length() != 0)
@@ -137,7 +170,7 @@ public class AvailableMoviesView extends JPanel {
                 }
                 return value;
             }
-
+        
             @Override
             public int getRowCount() {
                 if (mDisplayedMovies != null) {
@@ -145,11 +178,16 @@ public class AvailableMoviesView extends JPanel {
                 }
                 return 0;
             }
-
+        
             @Override
             public int getColumnCount() {
-                return 6;
+                return 7;
             }
         };
+        add(new JScrollPane(new JTable(m_model)), BorderLayout.CENTER);
+
+        // initializes table with all movies
+        mDisplayedMovies = MovieDao.getInstance().listAllMovies();
     }
+  
 }

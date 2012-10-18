@@ -1,6 +1,6 @@
 package net.demengel.refactoring.vrs.dao;
 
-import net.demengel.refactoring.vrs.xxx.FakeReferentialDb;
+import net.demengel.refactoring.vrs.xxx.FakeReferentialTable;
 
 /**
  * The DAO for accessing referential data.
@@ -41,6 +41,6 @@ public class ReferentialDao {
     }
 
     public String get(String property) {
-        return FakeReferentialDb.get(property);
+        return FakeReferentialTable.selectValueFromReferentialTableWherePropertyIsEqualTo(property);
     }
 }

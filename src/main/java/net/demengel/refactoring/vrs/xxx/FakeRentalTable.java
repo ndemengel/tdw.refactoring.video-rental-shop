@@ -95,7 +95,7 @@ public class FakeRentalTable {
         });
     }
 
-    public static void updatesAllPropertiesFromRentalTableForRental(final Rental rental, Transaction transaction) {
+    public static void updateRentalTableSetAllPropertiesWhereRentalIsEqualTo(final Rental rental, Transaction transaction) {
         doInTransaction(transaction, new Runnable() {
             @Override
             public void run() {

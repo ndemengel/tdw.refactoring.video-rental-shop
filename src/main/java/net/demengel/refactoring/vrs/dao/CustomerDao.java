@@ -3,7 +3,7 @@ package net.demengel.refactoring.vrs.dao;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTable;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTableWhereAccountNumberStartsWith;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTableWhereNameContains;
-import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.updatesAllPropertiesFromCustomerTableForCustomer;
+import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.updateCustomerTableSetAllPropertiesWhereCustomerIsEqualTo;
 
 import java.util.List;
 
@@ -52,6 +52,6 @@ public class CustomerDao {
     }
 
     public void update(Customer pSelectedCustomer, Transaction pTransaction) {
-        updatesAllPropertiesFromCustomerTableForCustomer(pSelectedCustomer, pTransaction);
+        updateCustomerTableSetAllPropertiesWhereCustomerIsEqualTo(pSelectedCustomer, pTransaction);
     }
 }

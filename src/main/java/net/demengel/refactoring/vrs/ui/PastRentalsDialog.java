@@ -18,8 +18,12 @@ public class PastRentalsDialog extends ModalDialog {
     public PastRentalsDialog(Customer pSelCust) {
         super("Past Rentals");
 
+        if (pSelCust == null) {
+            throw new IllegalArgumentException("customer");
+        }
+
         setLayout(new BorderLayout());
-        
+
         final List<Rental> lRentals = RentalDao.getInstance().findRentalsForCustomer(pSelCust.getAccountNumber());
         RentalHelper.getInstance().addTitlesToRentals(lRentals);
 
@@ -88,7 +92,7 @@ public class PastRentalsDialog extends ModalDialog {
             }
         };
         add(new JScrollPane(new JTable(model)), BorderLayout.CENTER);
-        
+
         pack();
         center();
     }

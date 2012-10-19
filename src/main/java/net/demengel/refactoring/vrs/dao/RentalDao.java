@@ -4,7 +4,7 @@ import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.insertAllProperti
 import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.selectAllPropertiesFromRentalTableWhereCustomerNumberIsEqualTo;
 import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.selectAllPropertiesFromRentalTableWhereReturnDateIsNull;
 import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.selectAllPropertiesFromRentalTableWhereReturnDateIsNullAndMovieCodeIsEqualTo;
-import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.updatesAllPropertiesFromRentalTableForRental;
+import static net.demengel.refactoring.vrs.xxx.FakeRentalTable.updateRentalTableSetAllPropertiesWhereRentalIsEqualTo;
 
 import java.util.List;
 
@@ -89,6 +89,6 @@ public class RentalDao {
      *            the transaction to use
      */
     public void update(Rental pRental, Transaction pTransaction) {
-        updatesAllPropertiesFromRentalTableForRental(pRental, pTransaction);
+        updateRentalTableSetAllPropertiesWhereRentalIsEqualTo(pRental, pTransaction);
     }
 }

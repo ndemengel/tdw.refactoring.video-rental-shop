@@ -69,7 +69,7 @@ public class FakeCustomerTable {
         }));
     }
 
-    public static void updatesAllPropertiesFromCustomerTableForCustomer(final Customer customer, Transaction transaction) {
+    public static void updateCustomerTableSetAllPropertiesWhereCustomerIsEqualTo(final Customer customer, Transaction transaction) {
         doInTransaction(transaction, new Runnable() {
             @Override
             public void run() {

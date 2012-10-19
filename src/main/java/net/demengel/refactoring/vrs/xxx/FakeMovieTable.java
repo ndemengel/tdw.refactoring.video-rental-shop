@@ -38,11 +38,11 @@ public class FakeMovieTable {
                         .duration(143).director("Joss Whedon").writers("Zak Penn", "Joss Whedon")
                         .cast("Robert Downey Jr.", "Chris Evans", "Scarlett Johansson").ownedQuantity(17).build(),
                 movie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
-                        .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ünel")
+                        .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ãœnel")
                         .ownedQuantity(2).build(),
                 movie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentalStart("1985/11/05")
-                        .genres("Comedy", "Sci-Fi").duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet")
-                        .cast("Louis de Funès", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).forcedPrice(1.2).build()
+                        .genres("Comedy", "Sci-Fi").duration(98).director("Jean Girault").writers("Louis de FunÃ¨s", "RenÃ© Fallet")
+                        .cast("Louis de FunÃ¨s", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).forcedPrice(1.2).build()
                 );
     }
 

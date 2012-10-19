@@ -10,7 +10,7 @@ import com.google.common.collect.ImmutableMap;
 public class FakeReferentialTable {
 
     private static final Map<String, String> DATA = ImmutableMap.of(
-            "MAX_RENTING_DAYS", "3", //
+            "MAX_RENTAL_DAYS", "3", //
             "PRICE_FOR_MOVIES_NO_OLDER_THAN_3_MONTHS", "5", //
             "PRICE_FOR_MOVIES_NO_OLDER_THAN_1_YEAR", "4", //
             "PRICE_FOR_MOVIES_OLDER_THAN_1_YEAR", "2.5"

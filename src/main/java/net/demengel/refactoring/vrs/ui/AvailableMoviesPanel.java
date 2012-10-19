@@ -21,10 +21,10 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.bean.Renting;
+import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.dao.MovieDao;
 import net.demengel.refactoring.vrs.dao.ReferentialDao;
-import net.demengel.refactoring.vrs.dao.RentingDao;
+import net.demengel.refactoring.vrs.dao.RentalDao;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
@@ -125,15 +125,15 @@ public class AvailableMoviesPanel extends JPanel {
                     Movie l_movie = (Movie) mDisplayedMovies.get(rowIndex);
                     // get total owned quantity
                     int l_ownedQuantity = l_movie.getOwnedQuantity();
-                    // get current rentings for the movie
-                    List<Renting> l_CurRentings = RentingDao.getInstance().findCurrentRentingsForMovie(l_movie.getCode());
+                    // get current rentals for the movie
+                    List<Rental> l_CurRentals = RentalDao.getInstance().findCurrentRentalsForMovie(l_movie.getCode());
                     //the difference is the availbale qty
-                    value = l_ownedQuantity - l_CurRentings.size();
+                    value = l_ownedQuantity - l_CurRentals.size();
                     break;
                 // Price
                 case 3:
                     Movie lMovie = (Movie) mDisplayedMovies.get(rowIndex);
-                    value = PriceUtils.getRental(lMovie, new Date());
+                    value = PriceUtils.getRentalPrice(lMovie, new Date());
                     break;
                 // Director
                 case 4:

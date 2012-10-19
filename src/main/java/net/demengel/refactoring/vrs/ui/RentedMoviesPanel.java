@@ -27,11 +27,11 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.bean.Renting;
+import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.dao.MovieDao;
 import net.demengel.refactoring.vrs.dao.ReferentialDao;
-import net.demengel.refactoring.vrs.dao.RentingDao;
-import net.demengel.refactoring.vrs.helper.RentingHelper;
+import net.demengel.refactoring.vrs.dao.RentalDao;
+import net.demengel.refactoring.vrs.helper.RentalHelper;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
 public class RentedMoviesPanel extends JPanel {
@@ -64,10 +64,10 @@ public class RentedMoviesPanel extends JPanel {
 
                     if (m_lateReturnsOnly) {
                         // get all movies
-                        List movies = RentingHelper.getInstance().getLateReturnsWithTitle();
+                        List movies = RentalHelper.getInstance().getLateReturnsWithTitle();
                         // loop on them
                         for (int i = 0; i < movies.size(); i++) {
-                            Renting movie = (Renting) movies.get(i);
+                            Rental movie = (Rental) movies.get(i);
                             // if movie title contains user entry
                             if (movie.getMovieTitle().toLowerCase().contains(m_filterString.toLowerCase()))
                                 // add it to the list of movies to display
@@ -76,10 +76,10 @@ public class RentedMoviesPanel extends JPanel {
                     }
                     else {
                         // get all movies
-                        List movies = RentingHelper.getInstance().getCurrentRentingsWithTitle();
+                        List movies = RentalHelper.getInstance().getCurrentRentalsWithTitle();
                         // loop on them
                         for (int i = 0; i < movies.size(); i++) {
-                            Renting movie = (Renting) movies.get(i);
+                            Rental movie = (Rental) movies.get(i);
                             // if movie title contains user entry
                             if (movie.getMovieTitle().toLowerCase().contains(m_filterString.toLowerCase()))
                                 // add it to the list of movies to display
@@ -110,10 +110,10 @@ public class RentedMoviesPanel extends JPanel {
 
                     if (m_lateReturnsOnly) {
                         // get all movies
-                        List movies = RentingHelper.getInstance().getLateReturnsWithTitle();
+                        List movies = RentalHelper.getInstance().getLateReturnsWithTitle();
                         // loop on them
                         for (int i = 0; i < movies.size(); i++) {
-                            Renting movie = (Renting) movies.get(i);
+                            Rental movie = (Rental) movies.get(i);
                             // if movie title contains user entry
                             if (movie.getMovieTitle().toLowerCase().contains(m_filterString.toLowerCase()))
                                 // add it to the list of movies to display
@@ -122,10 +122,10 @@ public class RentedMoviesPanel extends JPanel {
                     }
                     else {
                         // get all movies
-                        List movies = RentingHelper.getInstance().getCurrentRentingsWithTitle();
+                        List movies = RentalHelper.getInstance().getCurrentRentalsWithTitle();
                         // loop on them
                         for (int i = 0; i < movies.size(); i++) {
-                            Renting movie = (Renting) movies.get(i);
+                            Rental movie = (Rental) movies.get(i);
                             // if movie title contains user entry
                             if (movie.getMovieTitle().toLowerCase().contains(m_filterString.toLowerCase()))
                                 // add it to the list of movies to display
@@ -175,19 +175,19 @@ public class RentedMoviesPanel extends JPanel {
                 switch (columnIndex) {
                 // Code
                 case 0:
-                    value = ((Renting) mDisplayedMovies.get(rowIndex)).getMovieCode();
+                    value = ((Rental) mDisplayedMovies.get(rowIndex)).getMovieCode();
                     break;
                 // Title
                 case 1:
-                    value = ((Renting) mDisplayedMovies.get(rowIndex)).getMovieTitle();
+                    value = ((Rental) mDisplayedMovies.get(rowIndex)).getMovieTitle();
                     break;
                 // Customer
                 case 2:
-                    value =  ((Renting) mDisplayedMovies.get(rowIndex)).getCustomerNumber();
+                    value =  ((Rental) mDisplayedMovies.get(rowIndex)).getCustomerNumber();
                     break;
                 // Price
                 case 3:
-                    value = new SimpleDateFormat("yyyy/MM/dd").format(((Renting) mDisplayedMovies.get(rowIndex)).getRentingDate());
+                    value = new SimpleDateFormat("yyyy/MM/dd").format(((Rental) mDisplayedMovies.get(rowIndex)).getRentalDate());
                     break;
                 }
                 return value;
@@ -209,7 +209,7 @@ public class RentedMoviesPanel extends JPanel {
         add(new JScrollPane(new JTable(m_model)), BorderLayout.CENTER);
 
         // initializes table with all movies
-        mDisplayedMovies = RentingHelper.getInstance().getCurrentRentingsWithTitle();
+        mDisplayedMovies = RentalHelper.getInstance().getCurrentRentalsWithTitle();
     }
   
 }

@@ -32,7 +32,7 @@ public class Movie {
     /**
      * Release date
      */
-    private Date fRentingStart;
+    private Date fRentalStart;
     /**
      * Genres
      */
@@ -126,16 +126,16 @@ public class Movie {
      * 
      * @return
      */
-    public Date getRentingStart() {
-        return fRentingStart;
+    public Date getRentalStart() {
+        return fRentalStart;
     }
     
     /**
      * 
-     * @param pRentingStart
+     * @param pRentalStart
      */
-    public void setRentingStart(Date pRentingStart) {
-        fRentingStart = pRentingStart;
+    public void setRentalStart(Date pRentalStart) {
+        fRentalStart = pRentalStart;
     }
     /**
      * @return the genres

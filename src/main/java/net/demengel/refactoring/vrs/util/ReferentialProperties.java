@@ -10,7 +10,7 @@ public interface ReferentialProperties {
     /**
      * The maximum of days a customer is allowed to rent a movie before we shout at her.
      */
-    public static final String MAX_RENTING_DAYS = "MAX_RENTING_DAYS";
+    public static final String MAX_RENTAL_DAYS = "MAX_RENTAL_DAYS";
     /**
      * The price for movies no older than 3 months.
      */

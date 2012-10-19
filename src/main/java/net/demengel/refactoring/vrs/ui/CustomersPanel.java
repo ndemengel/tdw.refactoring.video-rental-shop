@@ -70,7 +70,7 @@ public class CustomersPanel extends JPanel {
                 case 1:
                     return m_customers.get(rowIndex).getName();
                 case 2:
-                    return CustomerHelper.getInstance().getCurrentRentingsForCustomer(m_customers.get(rowIndex).getAccountNumber()).size();
+                    return CustomerHelper.getInstance().getCurrentRentalsForCustomer(m_customers.get(rowIndex).getAccountNumber()).size();
                 case 3:
                     return CustomerHelper.getInstance().getLateReturnsForCustomer(m_customers.get(rowIndex).getAccountNumber()).size();
                 default:
@@ -97,7 +97,7 @@ public class CustomersPanel extends JPanel {
         jPopupMenu.add(jMenuItem1);
         final JMenuItem jMenuItem2 = new JMenuItem("Return Movies...");
         jPopupMenu.add(jMenuItem2);
-        final JMenuItem jMenuItem3 = new JMenuItem("Past Rentings...");
+        final JMenuItem jMenuItem3 = new JMenuItem("Past Rentals...");
         jPopupMenu.add(jMenuItem3);
         ActionListener lMenuItemsActionListener = new ActionListener() {
             @Override
@@ -108,7 +108,7 @@ public class CustomersPanel extends JPanel {
                 else if (pArg0.getSource() == jMenuItem2)
                     new ReturnMoviesDialog(selCust).setVisible(true);
                 else
-                    new PastRentingsDialog(selCust).setVisible(true);
+                    new PastRentalsDialog(selCust).setVisible(true);
             }
         };
         jMenuItem1.addActionListener(lMenuItemsActionListener);

@@ -28,19 +28,19 @@ public class FakeMovieTable {
         LocalDate now = new LocalDate();
 
         ALL_MOVIES = asList(
-                movie("BEKINDREWI2008").title("Be Kind Rewind").country("US").releaseDate("2008/01/20").rentingStart("2008/04/26").genres("Comedy", "Drama")
+                movie("BEKINDREWI2008").title("Be Kind Rewind").country("US").releaseDate("2008/01/20").rentalStart("2008/04/26").genres("Comedy", "Drama")
                         .duration(102).director("Michel Gondry").writers("Michel Gondry").cast("Jack Black", "Mos Def", "Danny Glover").ownedQuantity(5)
                         .build(),
-                movie("THEDARKKNI2012").title("The Dark Knight Rises").country("US").releaseDate("2012/07/16").rentingStart(now.minusMonths(2))
+                movie("THEDARKKNI2012").title("The Dark Knight Rises").country("US").releaseDate("2012/07/16").rentalStart(now.minusMonths(2))
                         .genres("Action", "Crime", "Thriller").duration(165).director("Christopher Nolan").writers("Jonathan Nolan", "Christopher Nolan")
                         .cast("Christian Bale", "Tom Hardy", "Anne Hathaway").ownedQuantity(21).build(),
-                movie("AVENGERS2012").title("Avengers").country("US").releaseDate("2012/04/11").rentingStart(now.minusMonths(5)).genres("Action")
+                movie("AVENGERS2012").title("Avengers").country("US").releaseDate("2012/04/11").rentalStart(now.minusMonths(5)).genres("Action")
                         .duration(143).director("Joss Whedon").writers("Zak Penn", "Joss Whedon")
                         .cast("Robert Downey Jr.", "Chris Evans", "Scarlett Johansson").ownedQuantity(17).build(),
-                movie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentingStart("2010/08/01").genres("Comedy", "Drama")
+                movie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
                         .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ünel")
                         .ownedQuantity(2).build(),
-                movie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentingStart("1985/11/05")
+                movie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentalStart("1985/11/05")
                         .genres("Comedy", "Sci-Fi").duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet")
                         .cast("Louis de Funès", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).forcedPrice(1.2).build()
                 );
@@ -71,7 +71,7 @@ public class FakeMovieTable {
                 out.setGenres(newHashSet(in.getGenres()));
                 out.setOwnedQuantity(in.getOwnedQuantity());
                 out.setReleaseDate(in.getReleaseDate());
-                out.setRentingStart(in.getRentingStart());
+                out.setRentalStart(in.getRentalStart());
                 out.setTitle(in.getTitle());
                 out.setWriters(newHashSet(in.getWriters()));
                 return out;
@@ -164,13 +164,13 @@ public class FakeMovieTable {
             return this;
         }
 
-        public MovieBuilder rentingStart(String date) {
-            movie.setRentingStart(parseDate(date));
+        public MovieBuilder rentalStart(String date) {
+            movie.setRentalStart(parseDate(date));
             return this;
         }
 
-        public MovieBuilder rentingStart(LocalDate date) {
-            movie.setRentingStart(date.toDate());
+        public MovieBuilder rentalStart(LocalDate date) {
+            movie.setRentalStart(date.toDate());
             return this;
         }
 

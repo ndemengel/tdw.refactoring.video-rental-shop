@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A cache implementing the "Least Recently Used" (LRU) algorithm: it discards the least recently used items first when room is required for
+ * A cache implemental the "Least Recently Used" (LRU) algorithm: it discards the least recently used items first when room is required for
  * new entries.
  */
 public class LRUCache<K, V> extends LinkedHashMap<K, V> {

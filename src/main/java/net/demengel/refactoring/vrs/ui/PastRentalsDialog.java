@@ -9,19 +9,19 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import net.demengel.refactoring.vrs.bean.Customer;
-import net.demengel.refactoring.vrs.bean.Renting;
-import net.demengel.refactoring.vrs.dao.RentingDao;
-import net.demengel.refactoring.vrs.helper.RentingHelper;
+import net.demengel.refactoring.vrs.bean.Rental;
+import net.demengel.refactoring.vrs.dao.RentalDao;
+import net.demengel.refactoring.vrs.helper.RentalHelper;
 
-public class PastRentingsDialog extends ModalDialog {
+public class PastRentalsDialog extends ModalDialog {
 
-    public PastRentingsDialog(Customer pSelCust) {
-        super("Past Rentings");
+    public PastRentalsDialog(Customer pSelCust) {
+        super("Past Rentals");
 
         setLayout(new BorderLayout());
         
-        final List<Renting> lRentings = RentingDao.getInstance().findRentingsForCustomer(pSelCust.getAccountNumber());
-        RentingHelper.getInstance().addTitlesToRentings(lRentings);
+        final List<Rental> lRentals = RentalDao.getInstance().findRentalsForCustomer(pSelCust.getAccountNumber());
+        RentalHelper.getInstance().addTitlesToRentals(lRentals);
 
         AbstractTableModel model = new AbstractTableModel() {
 
@@ -35,7 +35,7 @@ public class PastRentingsDialog extends ModalDialog {
                     name = "Title";
                 }
                 else if (pColumnIdx == 2) {
-                    name = "Renting Date";
+                    name = "Rental Date";
                 }
                 else if (pColumnIdx == 3) {
                     name = "Return Date";
@@ -51,23 +51,23 @@ public class PastRentingsDialog extends ModalDialog {
                 switch (columnIndex) {
                 // Code
                 case 0:
-                    value = lRentings.get(rowIndex).getMovieCode();
+                    value = lRentals.get(rowIndex).getMovieCode();
                     break;
                 // Title
                 case 1:
-                    value = lRentings.get(rowIndex).getMovieTitle();
+                    value = lRentals.get(rowIndex).getMovieTitle();
                     break;
-                // Renting Date
+                // Rental Date
                 case 2:
-                    value = lSimpleDateFormat.format(lRentings.get(rowIndex).getRentingDate());
+                    value = lSimpleDateFormat.format(lRentals.get(rowIndex).getRentalDate());
                     break;
                 // Return Date
                 case 3:
-                    if (lRentings.get(rowIndex).getReturnDate() == null) {
+                    if (lRentals.get(rowIndex).getReturnDate() == null) {
                         value = null;
                     }
                     else {
-                        value = lSimpleDateFormat.format(lRentings.get(rowIndex).getReturnDate());
+                        value = lSimpleDateFormat.format(lRentals.get(rowIndex).getReturnDate());
                     }
                     break;
                 }
@@ -76,8 +76,8 @@ public class PastRentingsDialog extends ModalDialog {
 
             @Override
             public int getRowCount() {
-                if (lRentings != null) {
-                    return lRentings.size();
+                if (lRentals != null) {
+                    return lRentals.size();
                 }
                 return 0;
             }

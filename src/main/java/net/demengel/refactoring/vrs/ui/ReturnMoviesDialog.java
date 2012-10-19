@@ -19,11 +19,11 @@ import javax.swing.table.AbstractTableModel;
 
 import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.bean.Renting;
+import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.dao.MovieDao;
 import net.demengel.refactoring.vrs.helper.CustomerHelper;
-import net.demengel.refactoring.vrs.helper.ExistingRentingsFacade;
-import net.demengel.refactoring.vrs.helper.RentingHelper;
+import net.demengel.refactoring.vrs.helper.ExistingRentalsFacade;
+import net.demengel.refactoring.vrs.helper.RentalHelper;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 
 public class ReturnMoviesDialog extends ModalDialog {
@@ -39,8 +39,8 @@ public class ReturnMoviesDialog extends ModalDialog {
 
         add(new JLabel("Work in progress..."), BorderLayout.NORTH);
 
-        final List<Renting> rentings = CustomerHelper.getInstance().getCurrentRentingsForCustomer(mSelectedCustomer.getAccountNumber());
-        RentingHelper.getInstance().addTitlesToRentings(rentings);
+        final List<Rental> rentals = CustomerHelper.getInstance().getCurrentRentalsForCustomer(mSelectedCustomer.getAccountNumber());
+        RentalHelper.getInstance().addTitlesToRentals(rentals);
 
         m_model = new AbstractTableModel() {
 
@@ -65,14 +65,14 @@ public class ReturnMoviesDialog extends ModalDialog {
             @Override
             public Object getValueAt(int rowIndex, int columnIndex) {
                 Object value = null;
-                if (rowIndex == rentings.size()) {
+                if (rowIndex == rentals.size()) {
                     switch (columnIndex) {
                     case 0:
                         value = "Total";
                         break;
                     case 2:
                         double total = 0;
-                        for (int i = 0; i < rentings.size(); i++) {
+                        for (int i = 0; i < rentals.size(); i++) {
                             total += (Double) getValueAt(i, 3);
                         }
                         value = total;
@@ -83,23 +83,23 @@ public class ReturnMoviesDialog extends ModalDialog {
                     switch (columnIndex) {
                     // Code
                     case 0:
-                        value = ((Renting) rentings.get(rowIndex)).getMovieCode();
+                        value = ((Rental) rentals.get(rowIndex)).getMovieCode();
                         break;
                     // Title
                     case 1:
-                        value = ((Renting) rentings.get(rowIndex)).getMovieTitle();
+                        value = ((Rental) rentals.get(rowIndex)).getMovieTitle();
                         break;
                     // Date
                     case 2:
-                        value = new SimpleDateFormat("yyyy/MM/dd").format(((Renting) rentings.get(rowIndex)).getRentingDate());
+                        value = new SimpleDateFormat("yyyy/MM/dd").format(((Rental) rentals.get(rowIndex)).getRentalDate());
                         break;
                     // Price
                     case 3:
-                        Renting lRenting = (Renting) rentings.get(rowIndex);
+                        Rental lRental = (Rental) rentals.get(rowIndex);
                         List codes = new ArrayList();
-                        codes.add(lRenting.getMovieCode());
+                        codes.add(lRental.getMovieCode());
                         Movie lMovie = (Movie) MovieDao.getInstance().getMoviesByCodes(codes).get(0);
-                        value = PriceUtils.getRental(lMovie, lRenting.getRentingDate());
+                        value = PriceUtils.getRentalPrice(lMovie, lRental.getRentalDate());
                         break;
                     }
                 }
@@ -108,8 +108,8 @@ public class ReturnMoviesDialog extends ModalDialog {
 
             @Override
             public int getRowCount() {
-                if (rentings != null) {
-                    return rentings.size() + 1;
+                if (rentals != null) {
+                    return rentals.size() + 1;
                 }
                 return 0;
             }
@@ -127,7 +127,7 @@ public class ReturnMoviesDialog extends ModalDialog {
             @Override
             public void actionPerformed(ActionEvent pArg0) {
                 try {
-                    new ExistingRentingsFacade(mSelectedCustomer, rentings, new Date()).saveReturns();
+                    new ExistingRentalsFacade(mSelectedCustomer, rentals, new Date()).saveReturns();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(ReturnMoviesDialog.this, "An unexpected error occurred", "Error!!!", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace();

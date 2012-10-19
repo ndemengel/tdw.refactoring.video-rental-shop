@@ -7,7 +7,7 @@ import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.bean.Renting;
+import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 import net.demengel.refactoring.vrs.util.PrintUtils;
 
@@ -17,41 +17,41 @@ import net.demengel.refactoring.vrs.util.PrintUtils;
  * 
  * @author GOD 16 jan. 2012
  */
-abstract class RentingsFacade {
+abstract class RentalsFacade {
 
     // new line
     private static final String NL = "\n";
 
     protected Customer mSelectedCustomer;
     protected List<Movie> mRentedMovies;
-    protected Date mRentingDate;
-    protected List<Renting> mRentings;
+    protected Date mRentalDate;
+    protected List<Rental> mRentals;
     protected Date mReturnDate;
 
     /**
-     * Constructor for new rentings.
+     * Constructor for new rentals.
      * 
      * @param pSelectedCustomer
      * @param pMoviesToRent
-     * @param pRentingDate
+     * @param pRentalDate
      */
-    public RentingsFacade(Customer pSelectedCustomer, List<Movie> pMoviesToRent, Date pRentingDate) {
+    public RentalsFacade(Customer pSelectedCustomer, List<Movie> pMoviesToRent, Date pRentalDate) {
         mSelectedCustomer = pSelectedCustomer;
         mRentedMovies = pMoviesToRent;
-        mRentingDate = pRentingDate;
+        mRentalDate = pRentalDate;
     }
 
     /**
-     * Constructor for existing rentings.
+     * Constructor for existing rentals.
      * 
      * @param pSelectedCustomer
      * @param pMoviesToRent
-     * @param pRentingDate
+     * @param pRentalDate
      */
-    public RentingsFacade(Customer pSelectedCustomer, List<Movie> pReturnedMovies, List<Renting> pRentings, Date pReturnDate) {
+    public RentalsFacade(Customer pSelectedCustomer, List<Movie> pReturnedMovies, List<Rental> pRentals, Date pReturnDate) {
         mSelectedCustomer = pSelectedCustomer;
         mRentedMovies = pReturnedMovies;
-        mRentings = pRentings;
+        mRentals = pRentals;
         mReturnDate = pReturnDate;
     }
 
@@ -64,8 +64,8 @@ abstract class RentingsFacade {
     protected final void printInvoice() {
         StringBuilder lStringBuffer = new StringBuilder();
 
-        appendHeader(lStringBuffer, mReturnDate != null ? mReturnDate : mRentingDate, mSelectedCustomer);
-        appendMovies(lStringBuffer, mRentings);
+        appendHeader(lStringBuffer, mReturnDate != null ? mReturnDate : mRentalDate, mSelectedCustomer);
+        appendMovies(lStringBuffer, mRentals);
         appendFooter(lStringBuffer, mReturnDate == null);
 
         PrintUtils.print("Invoice-" + mSelectedCustomer.getAccountNumber() + "-" + System.currentTimeMillis() + ".md", lStringBuffer.toString());
@@ -75,10 +75,10 @@ abstract class RentingsFacade {
      * Writes invoice header into buffer.
      * 
      * @param pStringBuffer
-     * @param pRentingDate
+     * @param pRentalDate
      * @param pSelectedCustomer
      */
-    private void appendHeader(StringBuilder pStringBuffer, Date pRentingDate, Customer pSelectedCustomer) {
+    private void appendHeader(StringBuilder pStringBuffer, Date pRentalDate, Customer pSelectedCustomer) {
         pStringBuffer.append("# Provisional Invoice");
         pStringBuffer.append(NL);
         pStringBuffer.append(NL);
@@ -89,7 +89,7 @@ abstract class RentingsFacade {
         pStringBuffer.append("SOMEWHERE");
         pStringBuffer.append(NL);
         pStringBuffer.append(NL);
-        pStringBuffer.append("**Date:** ").append(new SimpleDateFormat("yyyy/MM/dd").format(pRentingDate));
+        pStringBuffer.append("**Date:** ").append(new SimpleDateFormat("yyyy/MM/dd").format(pRentalDate));
         pStringBuffer.append(NL);
         appendCustomerInfo(pStringBuffer, pSelectedCustomer);
     }
@@ -133,9 +133,9 @@ abstract class RentingsFacade {
      * Appends movies' info to buffer.
      * 
      * @param pStringBuffer
-     * @param pRentings
+     * @param pRentals
      */
-    private void appendMovies(StringBuilder pStringBuffer, List<Renting> pRentings) {
+    private void appendMovies(StringBuilder pStringBuffer, List<Rental> pRentals) {
         pStringBuffer.append(NL);
         pStringBuffer.append("## Rented Movies");
         pStringBuffer.append(NL);
@@ -144,10 +144,10 @@ abstract class RentingsFacade {
         pStringBuffer.append("<th><td>Movie</td><td>Price</td></th>");
         pStringBuffer.append(NL);
         int i = 0;
-        for (Iterator<Renting> lRentingIterator = pRentings.iterator(); lRentingIterator.hasNext();) {
-            Renting lRenting = lRentingIterator.next();
+        for (Iterator<Rental> lRentalIterator = pRentals.iterator(); lRentalIterator.hasNext();) {
+            Rental lRental = lRentalIterator.next();
             Movie lMovie = mRentedMovies.get(i);
-            pStringBuffer.append("<tr><td>").append(lMovie.getTitle()).append("</td><td>").append(PriceUtils.getRental(lMovie, lRenting.getRentingDate()))
+            pStringBuffer.append("<tr><td>").append(lMovie.getTitle()).append("</td><td>").append(PriceUtils.getRentalPrice(lMovie, lRental.getRentalDate()))
                     .append("</td></tr>");
             pStringBuffer.append(NL);
             i++;

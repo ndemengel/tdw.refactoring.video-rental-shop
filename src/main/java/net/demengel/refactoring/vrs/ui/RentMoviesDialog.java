@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
 import net.demengel.refactoring.vrs.dao.MovieDao;
-import net.demengel.refactoring.vrs.helper.NewRentingsFacade;
+import net.demengel.refactoring.vrs.helper.NewRentalsFacade;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 
 public class RentMoviesDialog extends ModalDialog {
@@ -109,7 +109,7 @@ public class RentMoviesDialog extends ModalDialog {
                     // Price
                     case 2:
                         Movie lMovie = m_movies.get(rowIndex);
-                        value = PriceUtils.getRental(lMovie, new Date());
+                        value = PriceUtils.getRentalPrice(lMovie, new Date());
                         break;
                     }
                 }
@@ -137,7 +137,7 @@ public class RentMoviesDialog extends ModalDialog {
             @Override
             public void actionPerformed(ActionEvent pArg0) {
                 try {
-                    new NewRentingsFacade(mSelectedCustomer, m_movies, new Date()).saveRentings();
+                    new NewRentalsFacade(mSelectedCustomer, m_movies, new Date()).saveRentals();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(RentMoviesDialog.this, "An unexpected error occurred", "Error!!!", JOptionPane.ERROR_MESSAGE);
                     e.printStackTrace();

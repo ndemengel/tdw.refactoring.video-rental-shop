@@ -8,7 +8,7 @@ import java.util.Date;
  * 
  * @author nico 18 oct. 2012
  */
-public class Renting {
+public class Rental {
 
     /**
      * Customer number
@@ -25,9 +25,9 @@ public class Renting {
     private String movieTitle;
     
     /**
-     * Renting date
+     * Rental date
      */
-    private Date rentingDate;
+    private Date rentalDate;
     
     /**
      * Reutrn date.
@@ -79,18 +79,18 @@ public class Renting {
     }
 
     /**
-     * @return the rentingDate
+     * @return the rentalDate
      */
-    public Date getRentingDate() {
-        return rentingDate;
+    public Date getRentalDate() {
+        return rentalDate;
     }
 
     /**
-     * @param pRentingDate
-     *            the rentingDate to set
+     * @param pRentalDate
+     *            the rentalDate to set
      */
-    public void setRentingDate(Date pRentingDate) {
-        rentingDate = pRentingDate;
+    public void setRentalDate(Date pRentalDate) {
+        rentalDate = pRentalDate;
     }
 
     /**

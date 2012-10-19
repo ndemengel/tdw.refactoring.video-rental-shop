@@ -6,39 +6,39 @@ import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
-import net.demengel.refactoring.vrs.bean.Renting;
-import net.demengel.refactoring.vrs.dao.RentingDao;
+import net.demengel.refactoring.vrs.bean.Rental;
+import net.demengel.refactoring.vrs.dao.RentalDao;
 import net.demengel.refactoring.vrs.dao.Transaction;
 import net.demengel.refactoring.vrs.dao.TransactionContext;
 
 /**
- * A facade providing operations for new rentings.
+ * A facade providing operations for new rentals.
  * 
  * @author GOD 16 jan. 2012
  */
-public class NewRentingsFacade extends RentingsFacade {
+public class NewRentalsFacade extends RentalsFacade {
 
-    public NewRentingsFacade(Customer pSelectedCustomer, List<Movie> pMoviesToRent, Date pRentingDate) {
-        super(pSelectedCustomer, pMoviesToRent, pRentingDate);
+    public NewRentalsFacade(Customer pSelectedCustomer, List<Movie> pMoviesToRent, Date pRentalDate) {
+        super(pSelectedCustomer, pMoviesToRent, pRentalDate);
     }
 
     /**
      * 
      * @throws Exception
      */
-    public void saveRentings() throws Exception {
+    public void saveRentals() throws Exception {
         Transaction transaction = TransactionContext.getInstance().newTransaction();
         try {
 
-            mRentings = new ArrayList<Renting>(mRentedMovies.size());
+            mRentals = new ArrayList<Rental>(mRentedMovies.size());
             for (Movie m : mRentedMovies) {
-                Renting r = new Renting();
+                Rental r = new Rental();
                 r.setCustomerNumber(mSelectedCustomer.getAccountNumber());
                 r.setMovieCode(m.getCode());
-                r.setRentingDate(mRentingDate);
-                mRentings.add(r);
+                r.setRentalDate(mRentalDate);
+                mRentals.add(r);
 
-                RentingDao.getInstance().create(r, transaction);
+                RentalDao.getInstance().create(r, transaction);
             }
 
             TransactionContext.getInstance().commit(transaction);

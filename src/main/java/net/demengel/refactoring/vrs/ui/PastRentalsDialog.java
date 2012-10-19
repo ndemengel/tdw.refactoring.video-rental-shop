@@ -22,6 +22,7 @@ public class PastRentalsDialog extends ModalDialog {
             throw new IllegalArgumentException("customer");
         }
 
+        setName("pastRentals");
         setLayout(new BorderLayout());
 
         final List<Rental> lRentals = RentalDao.getInstance().findRentalsForCustomer(pSelCust.getAccountNumber());

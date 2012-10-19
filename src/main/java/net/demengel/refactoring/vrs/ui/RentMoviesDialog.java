@@ -31,6 +31,7 @@ public class RentMoviesDialog extends ModalDialog {
 
     public RentMoviesDialog(Customer pSelectedCustomer) {
         super("Rent Movies");
+        setName("rentMovies");
         mSelectedCustomer = pSelectedCustomer;
 
         setLayout(new BorderLayout());
@@ -38,6 +39,7 @@ public class RentMoviesDialog extends ModalDialog {
         JPanel fieldPanel = new JPanel(new FlowLayout());
         fieldPanel.add(new JLabel("Movie Code:"));
         final JTextField textField = new JTextField();
+        textField.setName("movieCodeToRent");
         textField.setColumns(14);
         textField.setText("Please scan article...");
         textField.selectAll();
@@ -135,6 +137,7 @@ public class RentMoviesDialog extends ModalDialog {
 
         JPanel bottomPanel = new JPanel(new FlowLayout());
         JButton printButton = new JButton("Validate");
+        printButton.setName("validateRentalsButton");
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent pArg0) {

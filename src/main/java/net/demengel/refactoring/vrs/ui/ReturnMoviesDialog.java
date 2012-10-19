@@ -33,11 +33,10 @@ public class ReturnMoviesDialog extends ModalDialog {
 
     public ReturnMoviesDialog(Customer pSelectedCustomer) {
         super("Return Movies");
+        setName("returnMovies");
         mSelectedCustomer = pSelectedCustomer;
 
         setLayout(new BorderLayout());
-
-        add(new JLabel("Work in progress..."), BorderLayout.NORTH);
 
         final List<Rental> rentals = CustomerHelper.getInstance().getCurrentRentalsForCustomer(mSelectedCustomer.getAccountNumber());
         RentalHelper.getInstance().addTitlesToRentals(rentals);
@@ -123,6 +122,7 @@ public class ReturnMoviesDialog extends ModalDialog {
 
         JPanel bottomPanel = new JPanel(new FlowLayout());
         JButton printButton = new JButton("Validate");
+        printButton.setName("validateReturnsButton");
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent pArg0) {

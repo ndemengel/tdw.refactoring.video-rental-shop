@@ -42,6 +42,7 @@ public class RentedMoviesPanel extends JPanel {
     private boolean m_lateReturnsOnly;
 
     public RentedMoviesPanel() {
+        setName("rentedMovies");
         setLayout(new BorderLayout());
         
         //// filter panel
@@ -53,6 +54,7 @@ public class RentedMoviesPanel extends JPanel {
         filterPanel.add(label);
         // filter field
         final JTextField jTextField = new JTextField();
+        jTextField.setName("rentalTitleFilter");
         jTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent pE) {
@@ -96,6 +98,7 @@ public class RentedMoviesPanel extends JPanel {
         filterPanel.add(jTextField);
         
         final JCheckBox lCb = new JCheckBox("Late returns");
+        lCb.setName("lateReturnsCheckbox");
         lCb.addItemListener(new ItemListener() {
             
             @Override

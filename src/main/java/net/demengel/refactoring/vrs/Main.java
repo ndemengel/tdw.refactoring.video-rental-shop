@@ -55,6 +55,7 @@ public class Main extends JFrame {
 
     private void createTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setName("mainTabs");
         tabbedPane.add("Available Movies", new AvailableMoviesPanel());
         tabbedPane.add("Customers", new CustomersPanel());
         tabbedPane.add("Rented Movies", new RentedMoviesPanel());

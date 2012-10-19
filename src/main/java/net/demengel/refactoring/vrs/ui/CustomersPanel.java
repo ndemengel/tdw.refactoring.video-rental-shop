@@ -32,6 +32,7 @@ public class CustomersPanel extends JPanel {
     private int m_selectedRow = -1;
 
     public CustomersPanel() {
+        setName("customers");
         setLayout(new BorderLayout());
 
         JPanel filterPanel = new JPanel(new FlowLayout());
@@ -170,6 +171,7 @@ public class CustomersPanel extends JPanel {
                 }
             }
         });
+        field.setName(filterByNumber ? "accountNumberFilter" : "customerNameFilter");
         field.setColumns(15);
         jPanel.add(field);
     }

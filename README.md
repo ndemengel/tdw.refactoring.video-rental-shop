@@ -30,5 +30,15 @@ That said, be careful not to rewrite so much that you are not delivering busines
 
 ## Help
 
+### Tests
+
 Some end-to-end tests are provided on the "test" branch to help you start in covering the application. If you want to retrieve a given test, use git cherry-picking:
 	git cherry-pick *<hash>*
+
+
+### Git
+
+To discard all changes since your last commit:
+	git reset --hard
+To discard all changes including local commits up to commit XXX:
+	git reset --hard XXX

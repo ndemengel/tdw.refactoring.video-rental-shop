@@ -35,6 +35,7 @@ public class AvailableMoviesPanel extends JPanel {
     private String m_filterString = "";
 
     public AvailableMoviesPanel() {
+        setName("availableMovies");
         setLayout(new BorderLayout());
         
         //// filter panel
@@ -44,6 +45,7 @@ public class AvailableMoviesPanel extends JPanel {
         filterPanel.add(label);
         // filter field
         final JTextField jTextField = new JTextField();
+        jTextField.setName("movieTitleFilter");
         jTextField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent pE) {

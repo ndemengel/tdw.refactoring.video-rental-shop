@@ -1,8 +1,10 @@
 package net.demengel.refactoring.vrs.dao;
 
+import static net.demengel.refactoring.vrs.xxx.FakeRentingTable.insertAllPropertiesIntoRentingTable;
 import static net.demengel.refactoring.vrs.xxx.FakeRentingTable.selectAllPropertiesFromRentingTableWhereCustomerNumberIsEqualTo;
 import static net.demengel.refactoring.vrs.xxx.FakeRentingTable.selectAllPropertiesFromRentingTableWhereReturnDateIsNull;
 import static net.demengel.refactoring.vrs.xxx.FakeRentingTable.selectAllPropertiesFromRentingTableWhereReturnDateIsNullAndMovieCodeIsEqualTo;
+import static net.demengel.refactoring.vrs.xxx.FakeRentingTable.updatesAllPropertiesFromRentingTableForRenting;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class RentingDao {
         return sInstance;
 
     }
-    
+
     /**
      * 
      * @return
@@ -64,5 +66,29 @@ public class RentingDao {
      */
     public List<Renting> findRentingsForCustomer(String pAccountNumber) {
         return selectAllPropertiesFromRentingTableWhereCustomerNumberIsEqualTo(pAccountNumber);
+    }
+
+    /**
+     * Saves the given renting, within the given transaction.
+     * 
+     * @param pRenting
+     *            the renting to save
+     * @param pTransaction
+     *            the transaction to use
+     */
+    public void create(Renting pRenting, Transaction pTransaction) {
+        insertAllPropertiesIntoRentingTable(pRenting, pTransaction);
+    }
+
+    /**
+     * Updates the given renting, within the given transaction.
+     * 
+     * @param pRenting
+     *            the renting to save
+     * @param pTransaction
+     *            the transaction to use
+     */
+    public void update(Renting pRenting, Transaction pTransaction) {
+        updatesAllPropertiesFromRentingTableForRenting(pRenting, pTransaction);
     }
 }

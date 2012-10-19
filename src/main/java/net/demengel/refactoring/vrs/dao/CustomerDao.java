@@ -3,6 +3,7 @@ package net.demengel.refactoring.vrs.dao;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTable;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTableWhereAccountNumberStartsWith;
 import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.selectAllPropertiesFromCustomerTableWhereNameContains;
+import static net.demengel.refactoring.vrs.xxx.FakeCustomerTable.updatesAllPropertiesFromCustomerTableForCustomer;
 
 import java.util.List;
 
@@ -48,5 +49,9 @@ public class CustomerDao {
 
     public List<Customer> findCustomersByNameLike(String name) {
         return selectAllPropertiesFromCustomerTableWhereNameContains(name);
+    }
+
+    public void update(Customer pSelectedCustomer, Transaction pTransaction) {
+        updatesAllPropertiesFromCustomerTableForCustomer(pSelectedCustomer, pTransaction);
     }
 }

@@ -20,7 +20,7 @@ import javax.swing.table.AbstractTableModel;
 import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
 import net.demengel.refactoring.vrs.dao.MovieDao;
-import net.demengel.refactoring.vrs.manager.RentingManager;
+import net.demengel.refactoring.vrs.helper.NewRentingsFacade;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 
 public class RentMoviesDialog extends ModalDialog {
@@ -132,11 +132,16 @@ public class RentMoviesDialog extends ModalDialog {
         add(new JScrollPane(new JTable(m_model)), BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new FlowLayout());
-        JButton printButton = new JButton("Print provisional invoice");
+        JButton printButton = new JButton("Validate");
         printButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent pArg0) {
-                RentingManager.getInstance().printProvisionalInvoice(mSelectedCustomer, m_movies);
+                try {
+                    new NewRentingsFacade(mSelectedCustomer, m_movies, new Date()).saveRentings();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(RentMoviesDialog.this, "An unexpected error occurred", "Error!!!", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
+                }
             }
         });
         bottomPanel.add(printButton);

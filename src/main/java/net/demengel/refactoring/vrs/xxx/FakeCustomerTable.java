@@ -1,27 +1,32 @@
 package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
+import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.doInTransaction;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
 import java.util.Date;
 import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Customer;
+import net.demengel.refactoring.vrs.dao.Transaction;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * Fake CUSTOMER table in a relational DataBase.
+ * Fake CUSTOMER table in a relational database. Static methods of this class represents SQL queries made to the database.
  */
 public class FakeCustomerTable {
 
     private static final List<Customer> ALL_CUSTOMERS = asList(
-            customer("11111").name("John Doe").birthDate("1980/07/13").credits(65).build(),
-            customer("22222").name("Arthur Dent").birthDate("1976/02/20").credits(12).build()
+            customer("11111").name("John Doe").birthDate("1980/07/13").creditCardNumber("1111-2222-3333-4444").credits(65).addressLine1("221B Baker Street")
+                    .zipCode("W1U 6RS").city("LONDON").phoneNumber("+33 6 67 67 89 89").build(),
+            customer("22222").name("Arthur Dent").birthDate("1976/02/20").creditCardNumber("5555-6666-7777-8888").addressLine1("Sector ZZ9")
+                    .addressLine2("Plural Z Alpha").zipCode("ZZ9").city("Betelgeuse Seven").credits(12).phoneNumber("+89 1011 1213").build()
             );
 
     public static List<Customer> selectAllPropertiesFromCustomerTable() {
@@ -62,6 +67,27 @@ public class FakeCustomerTable {
                 return customer.getName().contains(nameContents);
             }
         }));
+    }
+
+    public static void updatesAllPropertiesFromCustomerTableForCustomer(final Customer customer, Transaction transaction) {
+        doInTransaction(transaction, new Runnable() {
+            @Override
+            public void run() {
+                Customer customerToUpdate = find(ALL_CUSTOMERS, new Predicate<Customer>() {
+                    public boolean apply(Customer it) {
+                        return it.getAccountNumber().equals(customer.getAccountNumber());
+                    }
+                });
+                customerToUpdate.setAddressLine1(customer.getAddressLine1());
+                customerToUpdate.setAddressLine2(customer.getAddressLine2());
+                customerToUpdate.setAddressLine3(customer.getAddressLine3());
+                customerToUpdate.setCity(customer.getCity());
+                customerToUpdate.setCreditCardNumber(customer.getCreditCardNumber());
+                customerToUpdate.setCredits(customer.getCredits());
+                customerToUpdate.setPhoneNumber(customer.getPhoneNumber());
+                customerToUpdate.setZipCode(customer.getZipCode());
+            }
+        });
     }
 
     private static CustomerBuilder customer(String accountNumber) {

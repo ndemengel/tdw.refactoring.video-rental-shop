@@ -8,9 +8,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import net.demengel.refactoring.vrs.ui.AvailableMoviesView;
-import net.demengel.refactoring.vrs.ui.CustomersView;
-import net.demengel.refactoring.vrs.ui.RentedMoviesView;
+import net.demengel.refactoring.vrs.ui.AvailableMoviesPanel;
+import net.demengel.refactoring.vrs.ui.CustomersPanel;
+import net.demengel.refactoring.vrs.ui.RentedMoviesPanel;
 
 public class Main extends JFrame {
 
@@ -55,9 +55,9 @@ public class Main extends JFrame {
 
     private void createTabs() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.add("Available Movies", new AvailableMoviesView());
-        tabbedPane.add("Customers", new CustomersView());
-        tabbedPane.add("Rented Movies", new RentedMoviesView());
+        tabbedPane.add("Available Movies", new AvailableMoviesPanel());
+        tabbedPane.add("Customers", new CustomersPanel());
+        tabbedPane.add("Rented Movies", new RentedMoviesPanel());
         add(tabbedPane);
     }
 }

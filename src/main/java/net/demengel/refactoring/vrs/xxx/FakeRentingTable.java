@@ -2,14 +2,16 @@ package net.demengel.refactoring.vrs.xxx;
 
 import static com.google.common.base.Predicates.and;
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Arrays.asList;
+import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.doInTransaction;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
 import java.util.List;
 
 import net.demengel.refactoring.vrs.bean.Renting;
+import net.demengel.refactoring.vrs.dao.Transaction;
 
 import org.joda.time.LocalDate;
 
@@ -17,7 +19,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * Fake RENTING table in a relational DataBase.
+ * Fake RENTING table in a relational database. Static methods of this class represents SQL queries made to the database.
  */
 public class FakeRentingTable {
 
@@ -25,7 +27,7 @@ public class FakeRentingTable {
     static {
         LocalDate now = new LocalDate();
 
-        ALL_RENTINGS = asList(
+        ALL_RENTINGS = newArrayList(
                 renting().customerNumber("11111").movieCode("BEKINDREWI2008").rentingDate("2010/06/15").returnDate("2010/06/16").build(),
                 renting().customerNumber("11111").movieCode("THEDARKKNI2012").rentingDate(now.minusDays(23)).returnDate(now.minusDays(21)).build(),
                 renting().customerNumber("11111").movieCode("LASOUPEAUX1981").rentingDate(now.minusDays(11)).notReturned().build(),
@@ -84,10 +86,34 @@ public class FakeRentingTable {
         };
     }
 
+    public static void insertAllPropertiesIntoRentingTable(final Renting renting, Transaction transaction) {
+        doInTransaction(transaction, new Runnable() {
+            @Override
+            public void run() {
+                ALL_RENTINGS.add(renting);
+            }
+        });
+    }
+
+    public static void updatesAllPropertiesFromRentingTableForRenting(final Renting renting, Transaction transaction) {
+        doInTransaction(transaction, new Runnable() {
+            @Override
+            public void run() {
+                Renting rentingToUpdate = find(ALL_RENTINGS, and(movieCodeEqualTo(renting.getMovieCode()), customerNumberEqualTo(renting.getCustomerNumber())));
+                rentingToUpdate.setRentingDate(renting.getRentingDate());
+                rentingToUpdate.setReturnDate(renting.getReturnDate());
+            }
+        });
+    }
+
     private static RentingBuilder renting() {
         return new RentingBuilder();
     }
 
+    /**
+     * Note: the attribute movieTitle of Renting objects does not match any column in the RENTING table, therefore there is no building
+     * method for this attribute.
+     */
     private static class RentingBuilder {
 
         private Renting renting = new Renting();

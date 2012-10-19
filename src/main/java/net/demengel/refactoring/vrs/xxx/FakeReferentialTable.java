@@ -5,7 +5,7 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * Fake Referential table in a relational DataBase.
+ * Fake Referential table in a relational database. Static methods of this class represents SQL queries made to the database.
  */
 public class FakeReferentialTable {
 

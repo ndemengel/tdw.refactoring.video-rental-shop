@@ -28,13 +28,13 @@ import net.demengel.refactoring.vrs.dao.RentingDao;
 import net.demengel.refactoring.vrs.util.PriceUtils;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
-public class AvailableMoviesView extends JPanel {
+public class AvailableMoviesPanel extends JPanel {
 
     private AbstractTableModel m_model;
     private List mDisplayedMovies;
     private String m_filterString = "";
 
-    public AvailableMoviesView() {
+    public AvailableMoviesPanel() {
         setLayout(new BorderLayout());
         
         //// filter panel

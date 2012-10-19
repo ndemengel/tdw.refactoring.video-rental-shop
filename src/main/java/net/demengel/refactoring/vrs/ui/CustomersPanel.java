@@ -23,7 +23,7 @@ import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.dao.CustomerDao;
 import net.demengel.refactoring.vrs.helper.CustomerHelper;
 
-public class CustomersView extends JPanel {
+public class CustomersPanel extends JPanel {
 
     private AbstractTableModel m_model;
     private List<Customer> m_customers;
@@ -31,7 +31,7 @@ public class CustomersView extends JPanel {
     private String m_numberFilter = "";
     private int m_selectedRow = -1;
 
-    public CustomersView() {
+    public CustomersPanel() {
         setLayout(new BorderLayout());
 
         JPanel filterPanel = new JPanel(new FlowLayout());
@@ -97,18 +97,23 @@ public class CustomersView extends JPanel {
         jPopupMenu.add(jMenuItem1);
         final JMenuItem jMenuItem2 = new JMenuItem("Return Movies...");
         jPopupMenu.add(jMenuItem2);
+        final JMenuItem jMenuItem3 = new JMenuItem("Past Rentings...");
+        jPopupMenu.add(jMenuItem3);
         ActionListener lMenuItemsActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent pArg0) {
                 Customer selCust = m_customers.get(m_selectedRow);
                 if (pArg0.getSource() == jMenuItem1)
                     new RentMoviesDialog(selCust).setVisible(true);
-                else
+                else if (pArg0.getSource() == jMenuItem2)
                     new ReturnMoviesDialog(selCust).setVisible(true);
+                else
+                    new PastRentingsDialog(selCust).setVisible(true);
             }
         };
         jMenuItem1.addActionListener(lMenuItemsActionListener);
         jMenuItem2.addActionListener(lMenuItemsActionListener);
+        jMenuItem3.addActionListener(lMenuItemsActionListener);
         
         final JTable jTable = new JTable(m_model);
         jTable.addMouseListener(new MouseAdapter() {

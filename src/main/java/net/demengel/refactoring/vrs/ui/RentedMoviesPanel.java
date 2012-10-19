@@ -34,14 +34,14 @@ import net.demengel.refactoring.vrs.dao.RentingDao;
 import net.demengel.refactoring.vrs.helper.RentingHelper;
 import net.demengel.refactoring.vrs.util.ReferentialProperties;
 
-public class RentedMoviesView extends JPanel {
+public class RentedMoviesPanel extends JPanel {
 
     private AbstractTableModel m_model;
     private List mDisplayedMovies;
     private String m_filterString = "";
     private boolean m_lateReturnsOnly;
 
-    public RentedMoviesView() {
+    public RentedMoviesPanel() {
         setLayout(new BorderLayout());
         
         //// filter panel

@@ -19,7 +19,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 /**
- * Fake MOVIE table in a relational DataBase.
+ * Fake MOVIE table in a relational database. Static methods of this class represents SQL queries made to the database.
  */
 public class FakeMovieTable {
 

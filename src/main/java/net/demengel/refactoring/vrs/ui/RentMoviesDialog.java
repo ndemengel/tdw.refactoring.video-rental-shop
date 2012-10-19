@@ -39,6 +39,8 @@ public class RentMoviesDialog extends ModalDialog {
         fieldPanel.add(new JLabel("Movie Code:"));
         final JTextField textField = new JTextField();
         textField.setColumns(14);
+        textField.setText("Please scan article...");
+        textField.selectAll();
         fieldPanel.add(textField);
         JButton button = new JButton("Add To Cart");
         ActionListener lActionListener = new ActionListener() {

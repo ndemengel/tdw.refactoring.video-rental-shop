@@ -18,7 +18,6 @@ public class Main extends JFrame {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 new Main();
@@ -32,7 +31,7 @@ public class Main extends JFrame {
         return s_instance;
     }
 
-    private Main() {
+    public Main() {
         super("Video Rental Shop");
         s_instance = this;
         setName("mainWindow");

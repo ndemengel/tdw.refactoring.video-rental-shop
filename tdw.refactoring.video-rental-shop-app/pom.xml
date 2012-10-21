@@ -1,0 +1,19 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.demengel.tdw.refactoring</groupId>
+		<artifactId>tdw.refactoring.video-rental-shop-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>tdw.refactoring.video-rental-shop-app</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>2.0M8</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>

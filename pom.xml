@@ -1,66 +1,14 @@
 <project>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.demengel.tdw.refactoring</groupId>
-	<artifactId>tdw.refactoring.video-rental-shop</artifactId>
+	<artifactId>tdw.refactoring.video-rental-shop-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>1.3.9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>13.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- <dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-assert-core</artifactId>
-			<version>2.0M8</version>
-			<scope>test</scope>
-		</dependency>-->
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-swing-junit</artifactId>
-			<version>1.2.1</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-<!-- 			<groupId>org.easytesting</groupId> -->
-<!-- 			<artifactId>fest-swing</artifactId> -->
-<!-- 			<version>1.2.1</version> -->
-<!-- 			<scope>test</scope> -->
-<!-- 		</dependency> -->
-		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-swing-junit</artifactId>
-			<version>1.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.9.0</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>tdw.refactoring.video-rental-shop-app</module>
+		<module>tdw.refactoring.video-rental-shop-it</module>
+	</modules>
 
 	<build>
 		<pluginManagement>
@@ -126,31 +74,33 @@
 		</plugins>
 	</build>
 
-	<profiles>
-		<profile>
-			<!-- integration testing -->
-			<id>it</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>integration-test</phase>
-								<goals>
-									<goal>test</goal>
-								</goals>
-								<configuration>
-									<includes>
-										<include>**/*IT.java</include>
-									</includes>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>1.3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>

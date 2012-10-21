@@ -8,8 +8,10 @@ import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
+import org.junit.Ignore;
 import org.junit.Test;
 
+@Ignore
 public class FirstExampleIT extends FestSwingJUnitTestCase {
 
     private FrameFixture mainWindow;

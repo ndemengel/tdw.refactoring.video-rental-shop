@@ -16,6 +16,11 @@ Here are the points she expects to be addressed, ordered by business value:
 The client agreed to work iteratively, with frequent demonstrations, as she can't pay too much for the software and wants to be able to stop the project should anything go wrong. She also understood the point of evaluating the difficulty of each user story first, and to possibly re-prioritize the stories based on that evaluation.
 
 
+Notes:
+* There are many other points that would draw your attention (for instance: all movies must be returned at once, taxes are not handled, etc...). They only reflect the fact that this application is a sample one, and you are not expected to work on those points.
+* To keep the sample application lightweight and focused, the database has been faked (see package xxx). You should not modify it, but you may use the static methods provided by the FakeXxxTable classes. Those methods represents SQL statements sent to the database.
+
+
 ## Instructions
 
 The point of this exercice being to apply "clean code" principles and to put Test Driven Development into practice, there are some rules to follow:
@@ -32,13 +37,14 @@ That said, be careful not to rewrite so much that you are not delivering busines
 
 ### Tests
 
-Some end-to-end tests are provided on the "test" branch to help you start in covering the application. If you want to retrieve a given test, use git cherry-picking:
-	git cherry-pick *<hash>*
+Some end-to-end tests are provided in the "-it" module to help you start in covering the application.
 
 
 ### Git
 
+To commit your work:
+	git commit -m "My comment"
 To discard all changes since your last commit:
 	git reset --hard
-To discard all changes including local commits up to commit XXX:
+To discard all changes up to commit XXX:
 	git reset --hard XXX

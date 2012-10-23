@@ -23,18 +23,16 @@ import com.google.common.base.Predicate;
  */
 public class FakeRentalTable {
 
-    private static final List<Rental> ALL_RENTALS;
+    private static final List<Rental> ALL_RENTALS = newArrayList();
     static {
         LocalDate now = new LocalDate();
 
-        ALL_RENTALS = newArrayList(
-                rental().customerNumber("11111").movieCode("BEKINDREWI2008").rentalDate("2010/06/15").returnDate("2010/06/16").build(),
-                rental().customerNumber("11111").movieCode("THEDARKKNI2012").rentalDate(now.minusDays(23)).returnDate(now.minusDays(21)).build(),
-                rental().customerNumber("11111").movieCode("LASOUPEAUX1981").rentalDate(now.minusDays(11)).notReturned().build(),
-                rental().customerNumber("22222").movieCode("THEDARKKNI2012").rentalDate(now.minusDays(2)).notReturned().build(),
-                rental().customerNumber("22222").movieCode("AVENGERS2012").rentalDate(now.minusDays(2)).notReturned().build(),
-                rental().customerNumber("22222").movieCode("SOULKITCH2009").rentalDate(now.minusDays(2)).notReturned().build()
-                );
+        newRental().customerNumber("11111").movieCode("BEKINDREWI2008").rentalDate("2010/06/15").returnDate("2010/06/16").insert();
+        newRental().customerNumber("11111").movieCode("THEDARKKNI2012").rentalDate(now.minusDays(23)).returnDate(now.minusDays(21)).insert();
+        newRental().customerNumber("11111").movieCode("LASOUPEAUX1981").rentalDate(now.minusDays(11)).notReturned().insert();
+        newRental().customerNumber("22222").movieCode("THEDARKKNI2012").rentalDate(now.minusDays(2)).notReturned().insert();
+        newRental().customerNumber("22222").movieCode("AVENGERS2012").rentalDate(now.minusDays(2)).notReturned().insert();
+        newRental().customerNumber("22222").movieCode("SOULKITCH2009").rentalDate(now.minusDays(2)).notReturned().insert();
     }
 
     public static List<Rental> selectAllPropertiesFromRentalTableWhereReturnDateIsNull() {
@@ -106,7 +104,11 @@ public class FakeRentalTable {
         });
     }
 
-    private static RentalBuilder rental() {
+    public static void truncate() {
+        ALL_RENTALS.clear();
+    }
+
+    public static RentalBuilder newRental() {
         return new RentalBuilder();
     }
 
@@ -114,12 +116,15 @@ public class FakeRentalTable {
      * Note: the attribute movieTitle of Rental objects does not match any column in the RENTAL table, therefore there is no building method
      * for this attribute.
      */
-    private static class RentalBuilder {
+    public static class RentalBuilder {
 
         private Rental rental = new Rental();
 
-        public Rental build() {
-            return rental;
+        private RentalBuilder() {
+        }
+
+        public void insert() {
+            ALL_RENTALS.add(rental);
         }
 
         public RentalBuilder customerNumber(String number) {

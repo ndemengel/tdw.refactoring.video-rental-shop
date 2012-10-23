@@ -90,11 +90,15 @@ public class CustomerHelper implements ReferentialProperties {
         for (Rental lRental : lsit) {
             if (lRental != null
                     && lRental.getReturnDate() == null
-                    && (lRental.getRentalDate() != null && System.currentTimeMillis() - lRental.getRentalDate().getTime() < (long) maxRentalDays * 24 * 3600 * 1000)) {
+                    && (lRental.getRentalDate() != null && System.currentTimeMillis() - lRental.getRentalDate().getTime() > (long) maxRentalDays * 24 * 3600 * 1000)) {
                 result.add(lRental);
             }
         }
         return result;
+    }
+
+    public void flushRentalsCache() {
+        rentalsByCustomerId.clear();
     }
 
 }

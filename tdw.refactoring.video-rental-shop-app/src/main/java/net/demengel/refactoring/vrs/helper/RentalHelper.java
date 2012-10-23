@@ -74,7 +74,7 @@ public class RentalHelper implements ReferentialProperties {
             // only keeps codes of late returns
             if (lRental != null
                     && lRental.getReturnDate() == null
-                    && (lRental.getRentalDate() != null && System.currentTimeMillis() - lRental.getRentalDate().getTime() < (long) maxRentalDays * 24 * 3600 * 1000)) {
+                    && (lRental.getRentalDate() != null && System.currentTimeMillis() - lRental.getRentalDate().getTime() > (long) maxRentalDays * 24 * 3600 * 1000)) {
                 codes.add(lRental.getMovieCode());
             }
         }

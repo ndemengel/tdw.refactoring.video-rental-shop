@@ -4,7 +4,6 @@ import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.find;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.Arrays.asList;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.doInTransaction;
 import static net.demengel.refactoring.vrs.xxx.FakeDbUtils.parseDate;
 
@@ -22,12 +21,13 @@ import com.google.common.base.Predicate;
  */
 public class FakeCustomerTable {
 
-    private static final List<Customer> ALL_CUSTOMERS = asList(
-            customer("11111").name("John Doe").birthDate("1980/07/13").creditCardNumber("1111-2222-3333-4444").credits(65).addressLine1("221B Baker Street")
-                    .zipCode("W1U 6RS").city("LONDON").phoneNumber("+33 6 67 67 89 89").build(),
-            customer("22222").name("Arthur Dent").birthDate("1976/02/20").creditCardNumber("5555-6666-7777-8888").addressLine1("Sector ZZ9")
-                    .addressLine2("Plural Z Alpha").zipCode("ZZ9").city("Betelgeuse Seven").credits(12).phoneNumber("+89 1011 1213").build()
-            );
+    private static final List<Customer> ALL_CUSTOMERS = newArrayList();
+    static {
+        newCustomer("11111").name("John Doe").birthDate("1980/07/13").creditCardNumber("1111-2222-3333-4444").credits(65).addressLine1("221B Baker Street")
+                .zipCode("W1U 6RS").city("LONDON").phoneNumber("+33 6 67 67 89 89").insert();
+        newCustomer("22222").name("Arthur Dent").birthDate("1976/02/20").creditCardNumber("5555-6666-7777-8888").addressLine1("Sector ZZ9")
+                .addressLine2("Plural Z Alpha").zipCode("ZZ9").city("Betelgeuse Seven").credits(12).phoneNumber("+89 1011 1213").insert();
+    }
 
     public static List<Customer> selectAllPropertiesFromCustomerTable() {
         return copy(ALL_CUSTOMERS);
@@ -90,21 +90,25 @@ public class FakeCustomerTable {
         });
     }
 
-    private static CustomerBuilder customer(String accountNumber) {
+    public static void truncate() {
+        ALL_CUSTOMERS.clear();
+    }
+
+    public static CustomerBuilder newCustomer(String accountNumber) {
         return new CustomerBuilder(accountNumber);
     }
 
-    private static class CustomerBuilder {
+    public static class CustomerBuilder {
 
         private Customer customer;
 
-        public CustomerBuilder(String accountNumber) {
+        private CustomerBuilder(String accountNumber) {
             customer = new Customer();
             customer.setAccountNumber(accountNumber);
         }
 
-        public Customer build() {
-            return customer;
+        public void insert() {
+            ALL_CUSTOMERS.add(customer);
         }
 
         public CustomerBuilder name(String name) {

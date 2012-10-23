@@ -51,15 +51,15 @@ public class ExistingRentalsFacade extends RentalsFacade implements ReferentialP
                 Movie lMovie = mRentedMovies.get(i++);
 
                 if (mReturnDate.getTime() - rental.getRentalDate().getTime() < (long) maxRentalDays * 24 * 3600 * 1000) {
-                    // if movie has been rent for less than 3 months
+                    // if movie has been proposed for less than 3 months
                     if (rental.getRentalDate().getTime() - lMovie.getRentalStart().getTime() < 90L * 24 * 3600 * 1000) {
                         newCredits += 50;
                     }
-                    // else, if movie has been rent for less than 1 year
+                    // else, if movie has been proposed for less than 1 year
                     else if (rental.getRentalDate().getTime() - lMovie.getRentalStart().getTime() < 365L * 24 * 3600 * 1000) {
                         newCredits += 30;
                     }
-                    // else, if movie has been rent for more than 1 year
+                    // else, if movie has been proposed for more than 1 year
                     else {
                         newCredits += 15;
                     }
@@ -67,6 +67,7 @@ public class ExistingRentalsFacade extends RentalsFacade implements ReferentialP
 
                 rental.setReturnDate(mReturnDate);
                 RentalDao.getInstance().update(rental, transaction);
+                CustomerHelper.getInstance().flushRentalsCache();
             }
 
             // updates customer credits

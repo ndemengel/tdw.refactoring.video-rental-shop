@@ -24,4 +24,12 @@ public class FakeReferentialTable {
     public static String updateReferentialTableSetValueWherePropertyIsEqualTo(String value, String property) {
         return DATA.put(property, value);
     }
+
+    public static String insertPropertyAndValueIntoReferentialTable(String property, String value) {
+        return DATA.put(property, value);
+    }
+
+    public static void truncate() {
+        DATA.clear();
+    }
 }

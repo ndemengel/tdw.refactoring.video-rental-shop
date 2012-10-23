@@ -36,6 +36,7 @@
 				<configuration>
 					<includes>
 						<include>**/*IT.java</include>
+						<include>**/*Spec.java</include>
 					</includes>
 				</configuration>
 			</plugin>

@@ -69,7 +69,7 @@ public class ReturnMoviesDialog extends ModalDialog {
                     case 0:
                         value = "Total";
                         break;
-                    case 2:
+                    case 3:
                         double total = 0;
                         for (int i = 0; i < rentals.size(); i++) {
                             total += (Double) getValueAt(i, 3);

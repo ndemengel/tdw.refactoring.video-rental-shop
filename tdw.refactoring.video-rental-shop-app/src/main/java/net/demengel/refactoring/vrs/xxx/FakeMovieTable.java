@@ -23,27 +23,24 @@ import com.google.common.base.Predicate;
  */
 public class FakeMovieTable {
 
-    private static final List<Movie> ALL_MOVIES;
+    private static final List<Movie> ALL_MOVIES = newArrayList();
     static {
         LocalDate now = new LocalDate();
 
-        ALL_MOVIES = asList(
-                movie("BEKINDREWI2008").title("Be Kind Rewind").country("US").releaseDate("2008/01/20").rentalStart("2008/04/26").genres("Comedy", "Drama")
-                        .duration(102).director("Michel Gondry").writers("Michel Gondry").cast("Jack Black", "Mos Def", "Danny Glover").ownedQuantity(5)
-                        .build(),
-                movie("THEDARKKNI2012").title("The Dark Knight Rises").country("US").releaseDate("2012/07/16").rentalStart(now.minusMonths(2))
-                        .genres("Action", "Crime", "Thriller").duration(165).director("Christopher Nolan").writers("Jonathan Nolan", "Christopher Nolan")
-                        .cast("Christian Bale", "Tom Hardy", "Anne Hathaway").ownedQuantity(21).build(),
-                movie("AVENGERS2012").title("Avengers").country("US").releaseDate("2012/04/11").rentalStart(now.minusMonths(5)).genres("Action")
-                        .duration(143).director("Joss Whedon").writers("Zak Penn", "Joss Whedon")
-                        .cast("Robert Downey Jr.", "Chris Evans", "Scarlett Johansson").ownedQuantity(17).build(),
-                movie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
-                        .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ünel")
-                        .ownedQuantity(2).build(),
-                movie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentalStart("1985/11/05")
-                        .genres("Comedy", "Sci-Fi").duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet")
-                        .cast("Louis de Funès", "Jean Carmet", "Jacques Villeret").ownedQuantity(1).forcedPrice(1.2).build()
-                );
+        newMovie("BEKINDREWI2008").title("Be Kind Rewind").country("US").releaseDate("2008/01/20").rentalStart("2008/04/26").genres("Comedy", "Drama")
+                .duration(102).director("Michel Gondry").writers("Michel Gondry").cast("Jack Black", "Mos Def", "Danny Glover").ownedQuantity(5).insert();
+        newMovie("THEDARKKNI2012").title("The Dark Knight Rises").country("US").releaseDate("2012/07/16").rentalStart(now.minusMonths(2))
+                .genres("Action", "Crime", "Thriller").duration(165).director("Christopher Nolan").writers("Jonathan Nolan", "Christopher Nolan")
+                .cast("Christian Bale", "Tom Hardy", "Anne Hathaway").ownedQuantity(21).insert();
+        newMovie("AVENGERS2012").title("Avengers").country("US").releaseDate("2012/04/11").rentalStart(now.minusMonths(5)).genres("Action").duration(143)
+                .director("Joss Whedon").writers("Zak Penn", "Joss Whedon").cast("Robert Downey Jr.", "Chris Evans", "Scarlett Johansson").ownedQuantity(17)
+                .insert();
+        newMovie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
+                .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ünel")
+                .ownedQuantity(2).insert();
+        newMovie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentalStart("1985/11/05").genres("Comedy", "Sci-Fi")
+                .duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet").cast("Louis de Funès", "Jean Carmet", "Jacques Villeret")
+                .ownedQuantity(1).forcedPrice(1.2).insert();
     }
 
     public static List<Movie> selectAllPropertiesFromMovieTable() {
@@ -107,21 +104,25 @@ public class FakeMovieTable {
         };
     }
 
-    private static MovieBuilder movie(String code) {
+    public static void truncate() {
+        ALL_MOVIES.clear();
+    }
+
+    public static MovieBuilder newMovie(String code) {
         return new MovieBuilder(code);
     }
 
-    private static class MovieBuilder {
+    public static class MovieBuilder {
 
         private Movie movie;
 
-        public MovieBuilder(String code) {
+        private MovieBuilder(String code) {
             movie = new Movie();
             movie.setCode(code);
         }
 
-        public Movie build() {
-            return movie;
+        public void insert() {
+            ALL_MOVIES.add(movie);
         }
 
         public MovieBuilder cast(String... stars) {

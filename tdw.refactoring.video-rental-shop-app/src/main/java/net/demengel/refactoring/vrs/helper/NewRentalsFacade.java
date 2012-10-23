@@ -39,6 +39,7 @@ public class NewRentalsFacade extends RentalsFacade {
                 mRentals.add(r);
 
                 RentalDao.getInstance().create(r, transaction);
+                CustomerHelper.getInstance().flushRentalsCache();
             }
 
             TransactionContext.getInstance().commit(transaction);

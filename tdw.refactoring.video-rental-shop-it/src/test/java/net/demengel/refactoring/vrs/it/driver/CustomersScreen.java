@@ -1,8 +1,12 @@
 package net.demengel.refactoring.vrs.it.driver;
 
 import static net.demengel.refactoring.vrs.it.driver.UiUtils.enterFilterText;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.swing.data.TableCell.row;
 
+import org.fest.swing.data.TableCell;
 import org.fest.swing.fixture.FrameFixture;
+import org.fest.swing.fixture.JPopupMenuFixture;
 import org.fest.swing.fixture.JTableFixture;
 
 public class CustomersScreen {
@@ -36,5 +40,28 @@ public class CustomersScreen {
 
     public void displaysNoCustomers() {
         mainWindow.table().requireRowCount(0);
+    }
+
+    public void selectCustomer(String customerAccountNumber) {
+        mainWindow.table().selectRows(findRowIndexForCustomer(customerAccountNumber));
+    }
+
+    private int findRowIndexForCustomer(String customerAccountNumber) {
+        return mainWindow.table().cell(customerAccountNumber).row;
+    }
+
+    public void proposesActions(String... expectedActions) {
+        assertThat(showPopupMenuForSelectedRow().menuLabels()).hasSize(expectedActions.length).contains((Object[]) expectedActions);
+    }
+
+    private JPopupMenuFixture showPopupMenuForSelectedRow() {
+        TableCell firstCellOfSelectedRow = row(mainWindow.table().target.getSelectedRow()).column(0);
+        return mainWindow.table().showPopupMenuAt(firstCellOfSelectedRow);
+    }
+
+    public RentMoviesScreen showRentMoviesScreenForCustomer(String customerAccountNumber) {
+        selectCustomer(customerAccountNumber);
+        showPopupMenuForSelectedRow().menuItemWithPath("Rent Movies...").click();
+        return new RentMoviesScreen(mainWindow);
     }
 }

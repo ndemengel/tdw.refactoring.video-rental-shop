@@ -117,6 +117,15 @@ public class CustomerMoviesScreenSpec extends VideoRentalStoreIntegrationTestCas
         customersScreen.displaysCustomer().withAccountNumber("11111").withLateReturns(1);
     }
 
+    @Test
+    public void should_propose_actions_for_selected_customer() throws Exception {
+        // when
+        customersScreen.selectCustomer("22222");
+
+        // then
+        customersScreen.proposesActions("Rent Movies...", "Return Movies...", "Past Rentals...");
+    }
+
     private String[] namesOfCustomersInDatabase() {
         return transform(selectAllPropertiesFromCustomerTable(), new Function<Customer, String>() {
             public String apply(Customer customer) {

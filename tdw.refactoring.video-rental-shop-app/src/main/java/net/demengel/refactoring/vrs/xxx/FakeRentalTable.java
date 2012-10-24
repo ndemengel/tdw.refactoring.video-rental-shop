@@ -32,7 +32,7 @@ public class FakeRentalTable {
         newRental().customerNumber("11111").movieCode("LASOUPEAUX1981").rentalDate(now.minusDays(11)).notReturned().insert();
         newRental().customerNumber("22222").movieCode("THEDARKKNI2012").rentalDate(now.minusDays(2)).notReturned().insert();
         newRental().customerNumber("22222").movieCode("AVENGERS2012").rentalDate(now.minusDays(2)).notReturned().insert();
-        newRental().customerNumber("22222").movieCode("SOULKITCH2009").rentalDate(now.minusDays(2)).notReturned().insert();
+        newRental().customerNumber("22222").movieCode("SOULKITCHE2009").rentalDate(now.minusDays(2)).notReturned().insert();
     }
 
     public static List<Rental> selectAllPropertiesFromRentalTableWhereReturnDateIsNull() {

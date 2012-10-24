@@ -22,12 +22,12 @@ public class TestDatabase {
         newMovie("AVENGERS2012").title("Avengers").country("US").releaseDate("2012/04/11").rentalStart(now.minusMonths(5)).genres("Action").duration(143)
                 .director("Joss Whedon").writers("Zak Penn", "Joss Whedon").cast("Robert Downey Jr.", "Chris Evans", "Scarlett Johansson").ownedQuantity(17)
                 .insert();
-        newMovie("SOULKITCH2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
+        newMovie("SOULKITCHE2009").title("Soul Kitchen").country("DE").releaseDate("2009/12/25").rentalStart("2010/08/01").genres("Comedy", "Drama")
                 .duration(99).director("Fatih Akin").writers("Fatih Akin", "Adam Bousdoukos").cast("Adam Bousdoukos", "Moritz Bleibtreu", "Birol Ünel")
                 .ownedQuantity(2).insert();
         newMovie("LASOUPEAUX1981").title("La soupe aux choux").country("FR").releaseDate("1981/12/02").rentalStart("1985/11/05").genres("Comedy", "Sci-Fi")
                 .duration(98).director("Jean Girault").writers("Louis de Funès", "René Fallet").cast("Louis de Funès", "Jean Carmet", "Jacques Villeret")
-                .ownedQuantity(1).forcedPrice(1.2).insert();
+                .ownedQuantity(1).insert();
 
         newCustomer("11111").name("John Doe").birthDate("1980/07/13").creditCardNumber("1111-2222-3333-4444").credits(65).addressLine1("221B Baker Street")
                 .zipCode("W1U 6RS").city("LONDON").phoneNumber("+33 6 67 67 89 89").insert();

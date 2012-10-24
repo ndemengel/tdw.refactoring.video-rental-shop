@@ -7,8 +7,13 @@ import org.fest.swing.edt.GuiActionRunner;
 import org.fest.swing.edt.GuiQuery;
 import org.fest.swing.fixture.FrameFixture;
 import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 public abstract class VideoRentalStoreIntegrationTestCase extends FestSwingJUnitTestCase {
+
+    @Rule
+    public TestName testName = new TestName();
 
     private Application applicationDriver;
 

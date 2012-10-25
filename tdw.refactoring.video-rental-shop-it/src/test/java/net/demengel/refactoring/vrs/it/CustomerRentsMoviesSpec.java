@@ -14,7 +14,6 @@ import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.it.driver.CustomersScreen;
 import net.demengel.refactoring.vrs.it.driver.RentMoviesScreen;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -99,13 +98,6 @@ public class CustomerRentsMoviesSpec extends VideoRentalStoreIntegrationTestCase
 
         // then
         assertThat(findLastInvoiceFile()).hasSameContentAs(expectedFileForThisTest());
-    }
-
-    @After
-    public void deleteInvoiceFiles() {
-        for (File f : new File(".").listFiles(new InvoiceFileFilter())) {
-            f.delete();
-        }
     }
 
     private File findLastInvoiceFile() {

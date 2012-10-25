@@ -7,7 +7,7 @@ import org.fest.swing.fixture.JTableFixture;
 
 public class AvailableMoviesScreen {
 
-    private FrameFixture mainWindow;
+    private final FrameFixture mainWindow;
 
     public AvailableMoviesScreen(FrameFixture mainWindow) {
         this.mainWindow = mainWindow;

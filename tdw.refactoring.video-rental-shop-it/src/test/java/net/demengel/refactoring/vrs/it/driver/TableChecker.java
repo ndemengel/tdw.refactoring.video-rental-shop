@@ -14,7 +14,7 @@ public class TableChecker<TC extends TableChecker<TC>> {
 
     private static final String NL = System.getProperty("line.separator");
 
-    private String tableContentDescription;
+    private final String tableContentDescription;
     private String descriptionSoFar;
     private List<String[]> matchingLines;
     private boolean firstCheck = true;

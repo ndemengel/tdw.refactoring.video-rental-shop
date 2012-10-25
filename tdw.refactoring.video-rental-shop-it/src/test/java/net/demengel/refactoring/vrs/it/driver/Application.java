@@ -4,7 +4,7 @@ import org.fest.swing.fixture.FrameFixture;
 
 public class Application {
 
-    private FrameFixture mainWindow;
+    private final FrameFixture mainWindow;
 
     public Application(FrameFixture mainWindow) {
         this.mainWindow = mainWindow;

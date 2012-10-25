@@ -11,7 +11,7 @@ import org.fest.swing.fixture.JTableFixture;
 
 public class CustomersScreen {
 
-    private FrameFixture mainWindow;
+    private final FrameFixture mainWindow;
 
     public CustomersScreen(FrameFixture mainWindow) {
         this.mainWindow = mainWindow;
@@ -63,5 +63,11 @@ public class CustomersScreen {
         selectCustomer(customerAccountNumber);
         showPopupMenuForSelectedRow().menuItemWithPath("Rent Movies...").click();
         return new RentMoviesScreen(mainWindow);
+    }
+
+    public ReturnMoviesScreen showReturnMoviesScreenForCustomer(String customerAccountNumber) {
+        selectCustomer(customerAccountNumber);
+        showPopupMenuForSelectedRow().menuItemWithPath("Return Movies...").click();
+        return new ReturnMoviesScreen(mainWindow);
     }
 }

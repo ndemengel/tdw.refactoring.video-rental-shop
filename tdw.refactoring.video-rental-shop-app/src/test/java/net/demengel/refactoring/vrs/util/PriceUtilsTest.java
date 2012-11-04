@@ -24,15 +24,15 @@ public class PriceUtilsTest {
         Movie lMovie1 = new Movie();
         lCalendar.clear();
         lCalendar.set(2012, 10, 11);
-        lMovie1.setRentalStart(lCalendar.getTime());
+        lMovie1.setRentalReleaseDate(lCalendar.getTime());
         Movie lMovie2 = new Movie();
         lCalendar.clear();
         lCalendar.set(2011, 12, 6);
-        lMovie2.setRentalStart(lCalendar.getTime());
+        lMovie2.setRentalReleaseDate(lCalendar.getTime());
         Movie lMovie3 = new Movie();
         lCalendar.clear();
         lCalendar.set(2009, 5, 23);
-        lMovie3.setRentalStart(lCalendar.getTime());
+        lMovie3.setRentalReleaseDate(lCalendar.getTime());
 
         double price = PriceUtils.getRentalPrice(lMovie1, lDate);
         assertEquals(42, price, 0);

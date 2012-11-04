@@ -1,15 +1,15 @@
-package net.demengel.refactoring.vrs.util;
+package net.demengel.refactoring.vrs.helper;
 
 import java.io.File;
 import java.util.Scanner;
 
 import org.junit.Test;
 
-public class PrintUtilsTest {
+public class RentalsFacadeTest {
 
     @Test
     public void testPrint() throws Exception {
-        PrintUtils.print("myDocument", "blah");
+        RentalsFacade.print("myDocument", "blah");
 
         Scanner lScanner = new Scanner(new File("myDocument"));
         while (lScanner.hasNextLine()) {

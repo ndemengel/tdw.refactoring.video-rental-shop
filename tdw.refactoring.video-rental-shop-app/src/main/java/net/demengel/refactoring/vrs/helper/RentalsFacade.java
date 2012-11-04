@@ -1,5 +1,8 @@
 package net.demengel.refactoring.vrs.helper;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,7 +12,6 @@ import net.demengel.refactoring.vrs.bean.Customer;
 import net.demengel.refactoring.vrs.bean.Movie;
 import net.demengel.refactoring.vrs.bean.Rental;
 import net.demengel.refactoring.vrs.util.PriceUtils;
-import net.demengel.refactoring.vrs.util.PrintUtils;
 
 /**
  * This app really s..., I'm getting tired of this procedural stuff. Let's do it the real way: with objects! So for once, this class is
@@ -18,6 +20,10 @@ import net.demengel.refactoring.vrs.util.PrintUtils;
  * @author GOD 16 jan. 2012
  */
 abstract class RentalsFacade {
+    
+    // This application does not directly print documents. Instead, documents to print are to be placed in a specific directory that is
+    // monitored by an external print process. Supported document types are: plain text, Markdown, HTML
+    private static final File DIRECTORY_FOR_DOCUMENTS_TO_PRINT = new File(".");
 
     // new line
     private static final String NL = "\n";
@@ -68,7 +74,27 @@ abstract class RentalsFacade {
         appendMovies(lStringBuffer, mRentals);
         appendFooter(lStringBuffer, mReturnDate == null);
 
-        PrintUtils.print("Invoice-" + mSelectedCustomer.getAccountNumber() + "-" + System.currentTimeMillis() + ".md", lStringBuffer.toString());
+        print("Invoice-" + mSelectedCustomer.getAccountNumber() + "-" + System.currentTimeMillis() + ".md", lStringBuffer.toString());
+    }
+
+    static void print(String pDocumentName, String pDocumentContent) {
+        File documentFile = new File(DIRECTORY_FOR_DOCUMENTS_TO_PRINT, pDocumentName);
+
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(documentFile);
+            fileWriter.write(pDocumentContent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e2) {
+                    e2.printStackTrace();
+                }
+            }
+        }
     }
 
     /**

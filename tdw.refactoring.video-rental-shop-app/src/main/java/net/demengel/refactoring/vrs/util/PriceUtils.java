@@ -12,11 +12,11 @@ public class PriceUtils {
         // if price is not forced
         if (price == null) {
             // if movie has been proposed for less than 3 months
-            if (p_date.getTime() - p_movie.getRentalStart().getTime() < 90L * 24 * 3600 * 1000) {
+            if (p_date.getTime() - p_movie.getRentalReleaseDate().getTime() < 90L * 24 * 3600 * 1000) {
                 price = new Double(ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_3_MONTHS));
             }
             // else, if movie has been proposed for less than 1 year
-            else if (p_date.getTime() - p_movie.getRentalStart().getTime() < 365L * 24 * 3600 * 1000) {
+            else if (p_date.getTime() - p_movie.getRentalReleaseDate().getTime() < 365L * 24 * 3600 * 1000) {
                 price = Double.parseDouble(ReferentialDao.getInstance().get(ReferentialProperties.PRICE_FOR_MOVIES_NO_OLDER_THAN_1_YEAR));
             }
             // else, if movie has been proposed for more than 1 year

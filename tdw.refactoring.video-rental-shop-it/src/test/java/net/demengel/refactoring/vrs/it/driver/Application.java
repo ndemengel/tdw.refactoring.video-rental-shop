@@ -23,4 +23,9 @@ public class Application {
         mainWindow.tabbedPane().selectTab("Customers");
         return new CustomersScreen(mainWindow);
     }
+
+    public RentedMoviesScreen showRentedMoviesScreen() {
+        mainWindow.tabbedPane().selectTab("Rented Movies");
+        return new RentedMoviesScreen(mainWindow);
+    }
 }

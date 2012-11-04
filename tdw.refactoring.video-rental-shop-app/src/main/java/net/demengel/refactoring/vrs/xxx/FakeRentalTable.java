@@ -35,6 +35,10 @@ public class FakeRentalTable {
         newRental().customerNumber("22222").movieCode("SOULKITCHE2009").rentalDate(now.minusDays(2)).notReturned().insert();
     }
 
+    public static List<Rental> selectAllPropertiesFromRentalTable() {
+        return copy(ALL_RENTALS);
+    }
+
     public static List<Rental> selectAllPropertiesFromRentalTableWhereReturnDateIsNull() {
         return copy(filter(ALL_RENTALS, nullReturnDate()));
     }

@@ -11,7 +11,7 @@ import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
 import org.junit.Ignore;
 import org.junit.Test;
 
-@Ignore
+@Ignore("Example of tests that could be improved to be less tied to the actual UI")
 public class FirstExampleIT extends FestSwingJUnitTestCase {
 
     private FrameFixture mainWindow;
@@ -44,10 +44,7 @@ public class FirstExampleIT extends FestSwingJUnitTestCase {
         mainWindow().textBox("movieTitleFilter").enterText("he");
 
         // then
-        mainWindow().table()
-                .requireRowCount(2)
-                .requireCellValue(row(0).column(0), "The Dark Knight Rises")
-                .requireCellValue(row(1).column(0), "Soul Kitchen");
+        mainWindow().table().requireRowCount(2).requireCellValue(row(0).column(0), "The Dark Knight Rises").requireCellValue(row(1).column(0), "Soul Kitchen");
     }
 
     @Test
@@ -56,9 +53,7 @@ public class FirstExampleIT extends FestSwingJUnitTestCase {
         mainWindow().textBox("movieTitleFilter").enterText("dark knig");
 
         // then
-        mainWindow().table()
-                .requireRowCount(1)
-                .requireCellValue(row(0).column(0), "The Dark Knight Rises");
+        mainWindow().table().requireRowCount(1).requireCellValue(row(0).column(0), "The Dark Knight Rises");
     }
 
     @Test

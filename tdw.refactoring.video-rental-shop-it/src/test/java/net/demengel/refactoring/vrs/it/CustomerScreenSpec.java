@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.google.common.base.Function;
 
-public class CustomerMoviesScreenSpec extends VideoRentalStoreIntegrationTestCase {
+public class CustomerScreenSpec extends VideoRentalStoreIntegrationTestCase {
 
     CustomersScreen customersScreen;
 
